@@ -3,7 +3,6 @@ Repositório para a disciplina de Engenharia de Software da UTFPR, campus Apucar
 
 1. Objetivo do Projeto
 A gestão de escolinhas de futebol de pequeno e médio porte ainda depende majoritariamente de processos manuais e desconectados. É frequente o uso de planilhas para o financeiro, grupos de WhatsApp para comunicação e anotações em papel para monitorar os alunos. Essa falta de integração gera ineficiência administrativa, falhas na comunicação com as famílias e dificuldade para analisar o desempenho dos atletas. A carência de uma solução centralizada consome tempo dos gestores e treinadores, resultando em uma experiência desorganizada para todos.
-
 Este projeto visa criar um sistema de gestão unificado para escolinhas de futebol, destinado a três tipos de usuários: administradores, treinadores e pais/responsáveis. A plataforma buscará simplificar os processos administrativos e financeiros, modernizar o acompanhamento pedagógico-esportivo e estabelecer um canal de comunicação mais eficaz entre a instituição e as famílias. O objetivo final é trazer maior eficiência, profissionalismo e valor aos serviços oferecidos.
 
 2. Viabilidade Técnica
