@@ -1,6 +1,8 @@
 # Eng_Software_2025-2
 Repositório para a disciplina de Engenharia de Software da UTFPR, campus Apucarana.
 
+Link para o Docs do Documento de Requisitos (V1): https://docs.google.com/document/d/1Mk7BkMl4_-l1ifmd_HLYopfKxHWUlUyj/edit?usp=sharing&ouid=103704943696249700746&rtpof=true&sd=true
+
 1. Objetivo do Projeto
 
 A gestão de escolinhas de futebol de pequeno e médio porte ainda depende majoritariamente de processos manuais e desconectados. É frequente o uso de planilhas para o financeiro, grupos de WhatsApp para comunicação e anotações em papel para monitorar os alunos. Essa falta de integração gera ineficiência administrativa, falhas na comunicação com as famílias e dificuldade para analisar o desempenho dos atletas. A carência de uma solução centralizada consome tempo dos gestores e treinadores, resultando em uma experiência desorganizada para todos.
