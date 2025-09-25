@@ -1,8 +1,5 @@
-# Eng_Software_2025-2
-Repositório para a disciplina de Engenharia de Software da UTFPR, campus Apucarana.
-
-# Trabalho 1: Engenharia de Requisitos
 # Projeto: Sistema de Gestão para Escolinhas de Futebol
+# Trabalho 1: Engenharia de Requisitos
 
 **Equipe:**
 - Bruno Correa Borges Silva
