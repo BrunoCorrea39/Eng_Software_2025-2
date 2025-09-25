@@ -95,42 +95,42 @@ A técnica de elicitação de requisitos empregada foi a **Pesquisa Documental**
 **COMO PREENCHER:** Liste aqui todas as Histórias de Usuário (HUs) que foram definidas e revisadas pela equipe. Organize-as por perfil de usuário para facilitar a leitura.
 
 ### 3.1. Perfil: Administrador
-- **(GUILHERME) - HU-01: Visualizar Status Financeiro dos Alunos**
+- **- HU-01: Visualizar Status Financeiro dos Alunos (GUILHERME)**
   - Como um administrador, eu quero visualizar um painel com o status de pagamento de todos os alunos, para que eu possa identificar rapidamente quem está inadimplente e gerenciar o fluxo de caixa da escolinha.
   - **Critérios de Aceitação:**
     1. O painel deve listar todos os alunos ativos.
     2. Cada aluno deve ter um status claro (ex: "Em dia", "Em atraso", "Pendente").
     3. Devo conseguir filtrar a lista por status de pagamento.
    
-- **(GUILHERME) HU-02: Gerenciar Planos de Matrícula**
+- **HU-02: Gerenciar Planos de Matrícula (GUILHERME)**
   - Como um administrador, eu quero criar e gerenciar diferentes planos de pagamento (mensal, semestral, anual), para que eu possa oferecer descontos para pagamentos antecipados e reduzir a evasão de alunos nas férias.
   - **Critérios de Aceitação::**
     1. Devo poder criar um novo plano com nome, valor e período (ex: "Plano Semestral", R$ 600,00, 6 meses).
     2. Devo poder associar um aluno a um plano específico no momento da matrícula.
     3. O sistema deve gerar as cobranças automaticamente com base no plano escolhido.
 
-- **(JOÃO) HU-03: Cadastrar Novos Alunos**
+- **HU-03: Cadastrar Novos Alunos (JOÃO)**
   - Como um administrador, eu quero cadastrar um novo aluno com suas informações pessoais, dados dos responsáveis e informações médicas relevantes, para que todas as informações fiquem centralizadas e seguras em um único local.
   - **Critérios de Aceitação:**
     1. O formulário de cadastro deve incluir campos para nome do aluno, data de nascimento, nome dos responsáveis, telefones de contato e um campo para observações médicas (alergias, etc.).
     2. Após o cadastro, o perfil do aluno deve ser criado e ficar acessível no sistema.
 
 ### 3.2. Perfil: Treinador
-- **(BRUNO) HU-04: Realizar Chamada Digital**
+- **HU-04: Realizar Chamada Digital (BRUNO)**
   - Como um treinador, eu quero registrar a presença dos meus alunos de forma rápida através de uma lista digital no meu celular, para que eu possa otimizar o tempo no início do treino e manter um histórico de frequência preciso.
   - **Critérios de Aceitação:**
     1. Ao acessar minha turma, devo ver a lista de todos os alunos matriculados.
     2. Devo conseguir marcar cada aluno como "Presente" ou "Ausente" com um clique.
     3. Após salvar, a frequência do dia deve ser registrada no histórico do aluno e no sistema.
 
-- **(JOÃO) HU-05: Registrar Avaliações de Desempenho**
+- **HU-05: Registrar Avaliações de Desempenho (JOÃO)**
   - Como um treinador, eu quero registrar observações e avaliações sobre o desenvolvimento de cada aluno, para que eu possa acompanhar seu progresso ao longo do tempo e ter dados concretos para conversar com os pais.
   - **Critérios de Aceitação:**
     1. No perfil de um aluno, devo encontrar uma área para adicionar uma nova avaliação
     2. A avaliação deve permitir notas ou comentários em áreas predefinidas (ex: "Passe", "Drible", "Comportamento em grupo").
     3. Todas as avaliações devem ficar salvas em um histórico no perfil do aluno.
    
-- **(BRUNO) HU-06: Publicar Comunicados para a Turma**
+- **HU-06: Publicar Comunicados para a Turma (BRUNO)**
   - Como um treinador, eu quero enviar comunicados para todos os pais da minha turma de uma só vez, para que eu possa informar sobre alterações de horário, locais de jogos ou outros avisos importantes de forma eficiente.
 Critérios de Aceitação:
   - **Critérios de Aceitação:**
@@ -138,19 +138,19 @@ Critérios de Aceitação:
     2. Ao publicar, todos os responsáveis dos alunos daquela turma devem receber uma notificação no sistema.
 
 ### 3.3. Perfil: Pais/Responséveis
-- **(JOÃO) HU-07: Visualizar o Desempenho do Meu Filho**
+- **HU-07: Visualizar o Desempenho do Meu Filho (JOÃO)**
   - Como um pai/responsável, eu quero acessar o perfil do meu filho para ver seu histórico de frequência e as avaliações de desempenho feitas pelo treinador, para que eu possa acompanhar sua evolução e me sentir mais engajado com as atividades.
   - **Critérios de Aceitação:**
     1. No perfil do meu filho, deve haver uma seção de "Frequência" e outra de "Avaliações".
     2. Devo conseguir ver todas as avaliações passadas com as notas e comentários do treinador.
 
-- **(BRUNO) HU-08: Acessar o Mural de Avisos e o Calendário**
+- **HU-08: Acessar o Mural de Avisos e o Calendário (BRUNO)**
   - Como um pai/responsável, eu quero ter acesso a um mural de notícias e a um calendário de eventos da escolinha, para que eu possa me manter informado sobre os próximos jogos, eventos e comunicados gerais sem depender de grupos de WhatsApp.
   - **Critérios de Aceitação:**
     1. A tela inicial do meu perfil deve exibir os últimos comunicados.
     2. Deve haver uma seção "Calendário" que mostre as datas dos próximos treinos, jogos e eventos.
 
-- **(GUILHERME) HU-09: Realizar Pagamentos Online**
+- **HU-09: Realizar Pagamentos Online (GUILHERME)**
   - Como um pai/responsável, eu quero visualizar minhas faturas e realizar o pagamento da mensalidade diretamente pelo sistema, para que o processo seja mais prático, seguro e eu possa manter meu filho adimplente.
   - **Critérios de Aceitação:**
     1. Devo ter uma seção "Financeiro" onde minhas cobranças em aberto são listadas.
