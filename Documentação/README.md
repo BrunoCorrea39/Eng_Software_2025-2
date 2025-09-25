@@ -157,13 +157,13 @@ Critérios de Aceitação:
 
 ## 4. Modelagem de Interação - Diagramas de Sequência
 
-**Figura 1: Diagrama de Sequência para a HU-01 (Vizualizar Status Financeiro)**
+**Figura 1: Diagrama de Sequência para a HU-01 (Vizualizar Status Financeiro) (GUILHERME)**
 ![Diagrama de Sequência para HU-01](Documentação/Diagramas/diagrama_Guilherme.png)
 
-**Figura 2: Diagrama de Sequência para a HU-04 (Realizar Chamada Digital)**
-![Diagrama de Sequência para HU-04](Documentação/Diagramas/diagrama_Bruno.png)
+**Figura 2: Diagrama de Sequência para a HU-04 (Realizar Chamada Digital) (BRUNO)**
+![Diagrama de Sequência para HU-04](Documentação/Diagramas/diagrama_Bruno.jpg)
 
-**Figura 3: Diagrama de Sequência para a HU-07 (Visualizar o Desempenho do Meu Filho)**
+**Figura 3: Diagrama de Sequência para a HU-07 (Visualizar o Desempenho do Meu Filho) (JOÃO)**
 ![Diagrama de Sequência para HU-07](Documentação/Diagramas/diagrama_Joao.png)
 
 ---
