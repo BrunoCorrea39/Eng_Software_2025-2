@@ -92,8 +92,6 @@ A técnica de elicitação de requisitos empregada foi a **Pesquisa Documental**
 
 ## 3. Requisitos Funcionais - Histórias de Usuário
 
-**COMO PREENCHER:** Liste aqui todas as Histórias de Usuário (HUs) que foram definidas e revisadas pela equipe. Organize-as por perfil de usuário para facilitar a leitura.
-
 ### 3.1. Perfil: Administrador
 - **- HU-01: Visualizar Status Financeiro dos Alunos (GUILHERME)**
   - Como um administrador, eu quero visualizar um painel com o status de pagamento de todos os alunos, para que eu possa identificar rapidamente quem está inadimplente e gerenciar o fluxo de caixa da escolinha.
@@ -159,13 +157,14 @@ Critérios de Aceitação:
 
 ## 4. Modelagem de Interação - Diagramas de Sequência
 
-**COMO PREENCHER:** Insira aqui as imagens dos diagramas de sequência que vocês criaram. Adicione uma breve legenda para cada um, associando-o à sua respectiva HU._
+**Figura 1: Diagrama de Sequência para a HU-01 (Vizualizar Status Financeiro)**
+![Diagrama de Sequência para HU-01](Documentação/Diagramas/diagrama_Guilherme.png)
 
-**Figura 1: Diagrama de Sequência para a HU-01 (Enviar Comunicados)**
-![Diagrama de Sequência para HU-01](caminho/no/repositorio/diagrama_hu01.png)
+**Figura 2: Diagrama de Sequência para a HU-04 (Realizar Chamada Digital)**
+![Diagrama de Sequência para HU-04](Documentação/Diagramas/diagrama_Bruno.png)
 
-**Figura 2: Diagrama de Sequência para a HU-02 (Registrar Presença)**
-![Diagrama de Sequência para HU-02](caminho/no/repositorio/diagrama_hu02.png)
+**Figura 3: Diagrama de Sequência para a HU-07 (Visualizar o Desempenho do Meu Filho)**
+![Diagrama de Sequência para HU-07](Documentação/Diagramas/diagrama_Joao.png)
 
 ---
 
