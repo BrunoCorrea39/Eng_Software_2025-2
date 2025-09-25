@@ -1,8 +1,6 @@
 # Eng_Software_2025-2
 Repositório para a disciplina de Engenharia de Software da UTFPR, campus Apucarana.
 
-Link para o Docs do Documento de Requisitos (V1): https://docs.google.com/document/d/1Mk7BkMl4_-l1ifmd_HLYopfKxHWUlUyj/edit?usp=sharing&ouid=103704943696249700746&rtpof=true&sd=true
-
 # Trabalho 1: Engenharia de Requisitos
 # Projeto: Sistema de Gestão para Escolinhas de Futebol
 
