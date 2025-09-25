@@ -42,7 +42,19 @@ A técnica de elicitação de requisitos empregada foi a **Pesquisa Documental**
 
 _**COMO PREENCHER:** Consolide aqui as pesquisas que cada membro fez, mantendo um formato padrão para cada uma._
 
-**Pesquisa de [Nome do Integrante 1]:**
+**Pesquisa de [Bruno Correa Borges Silva]:**
+- **Fonte:** (https://organizador.ritmodoesporte.com.br/blog/12949/3-problemas-comuns-em-escolas-de-esportes-e-como-resolver)
+- **Critério de Seleção:** [Explicação breve do porquê este artefato foi escolhido]
+- **Citação Relevante:** _"[Citação que embasou alguma decisão ou requisito]"_
+- **Conclusão para os Requisitos:** [Como a pesquisa influenciou a definição de uma funcionalidade]
+
+**Pesquisa de [João Lucas Damato Drummond]:**
+- **Fonte:** [Link ou referência do artigo/reportagem]
+- **Critério de Seleção:** [Explicação breve do porquê este artefato foi escolhido]
+- **Citação Relevante:** _"[Citação que embasou alguma decisão ou requisito]"_
+- **Conclusão para os Requisitos:** [Como a pesquisa influenciou a definição de uma funcionalidade]
+
+**Pesquisa de [Guilherme Alves Silva]:**
 - **Fonte:** [Link ou referência do artigo/reportagem]
 - **Critério de Seleção:** [Explicação breve do porquê este artefato foi escolhido]
 - **Citação Relevante:** _"[Citação que embasou alguma decisão ou requisito]"_
