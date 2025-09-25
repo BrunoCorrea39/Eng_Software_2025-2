@@ -10,8 +10,6 @@
 
 **-** Entrevistas com administradores, treinadores e pais/responsáveis para identificar necessidades.
 
-**-** Questionários digitais para coleta de expectativas sobre comunicação, pagamentos e desempenho.
-
 **-** Análise documental de referências acadêmicas e de mercado já levantadas.
 
 **-** Reuniões de brainstorming da equipe de projeto.
@@ -22,8 +20,6 @@
 
 **-** Criação de modelos de casos de uso e histórias de usuário (já iniciadas no documento).
 
-**-** Identificação de conflitos entre requisitos (ex.: expectativas dos pais x filosofia pedagógica).
-
 **-** Análise de viabilidade técnica, temporal e de relevância.
 
 ### 1.3 Validação
@@ -33,8 +29,6 @@
 **-** Protótipos de baixa fidelidade validados com usuários representativos (treinadores, administradores, pais).
 
 **-** Testes de aceitação baseados nos critérios descritos em cada história de usuário.
-
-**-** Workshops para alinhamento com stakeholders.
 
 ### 1.4 Priorização
 
@@ -48,11 +42,7 @@
 
 **-** Todas as alterações de requisitos devem ser registradas em um Log de Mudanças.
 
-**-** Solicitações avaliadas pelo comitê de requisitos (professor + representante da equipe).
-
-**-** Impactos em prazo, custo e escopo serão analisados antes da aprovação.
-
-**-** Uso de GitHub Projects para versionamento dos requisitos junto ao backlog.
+**-** Solicitações avaliadas pelo comitê de requisitos (professor + representantes da equipe).
 
 **-** Cada requisito recebe um identificador único (ex.: HU-01, RNF-03) para rastreabilidade.
 
@@ -67,3 +57,22 @@
 **-** Stakeholders (administradores, treinadores, pais): responsáveis por validar requisitos e fornecer feedback contínuo.
 
 **-** Professor-Orientador: atua como mediador e aprovador final em decisões críticas.
+
+**João**
+
+**-** Histórias do usuário e diagrama de sequência (já em andamento).
+
+**-** Criar protótipo de média fidelidade (já definido).
+
+**Bruno**
+
+**-** Histórias do usuário e diagrama de sequência (já em andamento).
+
+**-** Especificar atendimentos dos requisitos (documentar como o sistema dará suporte/fluxos para atendimentos).
+
+**Guilherme**
+
+**-** Histórias do usuário e diagrama de sequência (já em andamento).
+
+**-** Revisão conjunta dos requisitos (lidera a revisão e consolida feedbacks).
+
