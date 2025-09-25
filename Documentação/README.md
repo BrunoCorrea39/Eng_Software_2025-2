@@ -40,25 +40,53 @@ A técnica de elicitação de requisitos empregada foi a **Pesquisa Documental**
 
 ### 2.2. Artefatos da Pesquisa
 
-_**COMO PREENCHER:** Consolide aqui as pesquisas que cada membro fez, mantendo um formato padrão para cada uma._
+**Artigo 1:**
 
-**Pesquisa de [Bruno Correa Borges Silva]:**
-- **Fonte:** https://organizador.ritmodoesporte.com.br/blog/12949/3-problemas-comuns-em-escolas-de-esportes-e-como-resolver
-- **Critério de Seleção:** [Explicação breve do porquê este artefato foi escolhido]
-- **Citação Relevante:** _"[Citação que embasou alguma decisão ou requisito]"_
-- **Conclusão para os Requisitos:** [Como a pesquisa influenciou a definição de uma funcionalidade]
+**Pesquisador: Bruno Correa Borges Silva**
+- **Fonte:** Ritmo do Esporte. (s.d.). 3 problemas comuns em escolas de esportes e como resolvê-los. Blog Ritmo do Esporte. Recuperado de: https://organizador.ritmodoesporte.com.br/blog/12949/3-problemas-comuns-em-escolas-de-esportes-e-como-resolver
+- **Critério de Seleção:** Este artigo de blog foi selecionado por oferecer uma visão prática e de mercado, vinda de uma startup que atua diretamente na área de gestão esportiva. Ele valida os problemas acadêmicos com uma perspectiva do dia a dia do negócio.
+- **Citação Relevante:** _"Um dos principais problemas enfrentados pelas escolas de esportes é a falta de organização na gestão das equipes. Muitas vezes, os treinadores têm dificuldade em acompanhar o desempenho dos alunos, gerenciar a presença nas atividades e manter a comunicação com os pais"._
+- **Conclusão para os Requisitos:** Esta citação, por si só, justifica a criação de alguns pilares centrais de desempenho, controle de presença e comunicação, mostrando que uma única ferramenta integrada pode resolver múltiplos problemas operacionais.
 
-**Pesquisa de [João Lucas Damato Drummond]:**
-- **Fonte:** [Link ou referência do artigo/reportagem]
-- **Critério de Seleção:** [Explicação breve do porquê este artefato foi escolhido]
-- **Citação Relevante:** _"[Citação que embasou alguma decisão ou requisito]"_
-- **Conclusão para os Requisitos:** [Como a pesquisa influenciou a definição de uma funcionalidade]
+**Artigo 2:**
 
-**Pesquisa de [Guilherme Alves Silva]:**
-- **Fonte:** [Link ou referência do artigo/reportagem]
-- **Critério de Seleção:** [Explicação breve do porquê este artefato foi escolhido]
-- **Citação Relevante:** _"[Citação que embasou alguma decisão ou requisito]"_
-- **Conclusão para os Requisitos:** [Como a pesquisa influenciou a definição de uma funcionalidade]
+**Pesquisador: Bruno Correa Borges Silva**
+- **Fonte:** Moraes, Douglas Diniz. (2017). A PERSPECTIVA DOS PAIS EM RELAÇÃO À PARTICIPAÇÃO ESPORTIVA DOS FILHOS EM UMA ESCOLINHA DE FUTSAL. (Trabalho de Conclusão de Curso). Universidade Federal do Rio Grande do Sul, Porto Alegre. Recuperado de: https://lume.ufrgs.br/handle/10183/174737
+- **Critério de Seleção:**  Este TCC foi escolhido por investigar diretamente a perspectiva dos pais, um dos principais usuários do sistema, e por destacar as falhas e ruídos na comunicação com a escolinha.
+- **Citação Relevante:** _"[...] houve desconhecimento de alguns e falta de argumentos precisos e esclarecidos de outros quanto à metodologia utilizada na escolinha"._
+- **Conclusão para os Requisitos:**  Esta descoberta justifica a criação de um Portal dos Pais, onde a metodologia, o calendário e os objetivos da escolinha são comunicados de forma clara e transparente, alinhando as expectativas.
+
+**Artigo 3:**
+
+**Pesquisador: João Lucas Damato Drummond**
+- **Fonte:** Palade, T., & Grigore, G. (2021). STRATEGIES FOR IMPROVING COMMUNICATION BETWEEN COACHES AND PARENTS - A CASE STUDY: ROMANIA vs. UK. Discobolul Physical Education, Sport and Kinetotherapy Journal, 60(4), 401-415. Recuperado de: https://discobolulunefs.ro/media/December2021.4.pdf
+- **Critério de Seleção:** Escolhido por seu foco direto na comunicação treinador-pai e por identificar informações críticas que não são compartilhadas, justificando um canal de comunicação mais robusto e seguro.
+- **Citação Relevante:** A necessidade de comunicar sem restrições informações como _"problemas familiares que influenciam a participação efetiva e emocional da criança no treino; a criança tem problemas de saúde; a situação escolar da criança não é muito boa"._
+- **Conclusão para os Requisitos:** A falha em comunicar informações sensíveis justifica um Canal de Mensagens Diretas e Seguras, permitindo que os pais compartilhem dados confidenciais com o treinador e a administração de forma privada.
+
+**Artigo 4:**
+
+**Pesquisador: João Lucas Damato Drummond**
+- **Fonte:** Scaglia, Alcides José. (1996). ESCOLINHA DE FUTEBOL: UMA QUESTÃO PEDAGÓGICA. MOTRIZ, 2(1). Recuperado em: https://www.periodicos.rc.biblioteca.unesp.br/index.php/motriz/article/view/6513
+- **Critério de Seleção:** Este artigo foi escolhido por sua forte defesa de uma abordagem pedagógica, fornecendo a base filosófica para funcionalidades que vão além do simples registro técnico.
+- **Citação Relevante:** _"[A escolinha deve] trocar o tecnicismo de movimentos estereotipados, que são subordinados a resultados imediatos de performance, para se preocupar com a função pedagógica da ação motora desenvolvida..."._
+- **Conclusão para os Requisitos:** Esta visão pedagógica inspira o Módulo de Avaliações de Desempenho, que deve permitir ao treinador registrar a evolução do aluno em múltiplos aspectos (técnicos, sociais, comportamentais), valorizando o desenvolvimento integral.
+
+**Artigo 5:**
+
+**Pesquisador: Guilherme Alves Silva**
+- **Fonte:** Rodrigues, A. L. P., et al. (2016). A FORMAÇÃO DE JOVENS ATLETAS NAS ESCOLINHAS DE FUTEBOL EM FORTALEZA-CE. Revista Brasileira de Futsal e Futebol, 8(31), 340-347. Recuperado em: https://www.rbff.com.br/index.php/rbff/article/view/474
+- **Critério de Seleção:** Este estudo foi escolhido por analisar a relação entre treinadores e pais, focando no problema da pressão excessiva exercida pelas famílias sobre os jovens atletas.
+- **Citação Relevante:** _"[...] a aproximação dos pais com a escolinha, porém ela não é benéfica para o aluno, pois os mesmos fazem uma pressão para que os filhos sejam jogadores profissionais..."._
+- **Conclusão para os Requisitos:** A existência da pressão parental negativa embasa a criação de funcionalidades no Portal dos Pais (HU-08) que eduquem as famílias sobre a filosofia da escola e a importância de um desenvolvimento saudável, ajudando a gerenciar as expectativas.
+
+**Artigo 6:**
+
+**Pesquisador: Guilherme Alves Silva**
+- **Fonte:** Dias, C., et al. (2024). O mercado das escolinhas de futebol em Belo Horizonte. Movimento, v. 30, e30002. Recuperado em: https://www.scielo.br/j/mov/a/7BhhKPsP56qfNKhz8NjGqvF/?format=html&lang=pt
+- **Critério de Seleção:** Este artigo foi selecionado por sua análise sobre os desafios administrativos e financeiros das escolinhas, oferecendo uma visão de negócio que justifica as funcionalidades de gestão do nosso sistema.
+- **Citação Relevante:** _"Alguns proprietários indicam que até 50% do seu público pode evadir em meses de férias escolares, privando-os de parte significativa de suas receitas nesses períodos"._
+- **Conclusão para os Requisitos:** A alta evasão justifica a necessidade de um Módulo de Gestão de Planos, permitindo que o administrador crie planos de longo prazo (semestrais/anuais) para fidelizar os alunos e garantir a previsibilidade da receita.
 
 ---
 
