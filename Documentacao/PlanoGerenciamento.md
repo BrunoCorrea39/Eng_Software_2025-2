@@ -65,5 +65,3 @@ Esta matriz define as responsabilidades de cada membro da equipe nas atividades 
 | **Criar o Protótipo** | O | X | O |
 | **Criar Doc. de Req.** | X |  |  |
 | **Criar Plano de Ger. de Req** |  |  | X |
-
-*(Nota: a distribuição de Aprovador (A) pode ser rotativa ou centralizada em um membro que assuma o papel de "Gerente de Projeto" ou "Product Owner" da equipe).*
