@@ -2,7 +2,7 @@
 
 ## 1. Introdução
 
-Este documento descreve os processos e procedimentos que a equipe do projeto "Sistema de Gestão para Escolinhas de Futebol" utilizará para gerenciar seus requisitos. O objetivo é garantir que os requisitos sejam completamente compreendidos, documentados, validados e controlados, servindo como uma base estável para o desenvolvimento do software. Este plano cobre a elicitação, análise, validação, priorização, controle de mudanças e as responsabilidades da equipe.
+Este documento descreve os processos e procedimentos que a equipe utilizará para gerenciar seus requisitos. O objetivo é garantir que os requisitos sejam completamente compreendidos, documentados, validados e controlados, servindo como uma base estável para o desenvolvimento do software. Este plano cobre a elicitação, análise, validação, priorização, controle de mudanças e as responsabilidades da equipe.
 
 ---
 
