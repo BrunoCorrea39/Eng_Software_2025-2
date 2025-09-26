@@ -171,40 +171,31 @@ https://www.figma.com/design/Cd9R46PDLFjQw5j7Skf7Gy/Prot%C3%B3tipo-V1-Eng.-Softw
 ### 5.1. Fluxos de Tela
 
 **Fluxo 1: Visualizar Status Financeiro dos Alunos (HU-01)**
-_Descrição breve do fluxo._
-![Fluxo de Envio de Comunicado](Prototipo/PrototipoHU01.jpg)
+![Fluxo de Visualizar Status Financeiro dos Alunos](Prototipo/PrototipoHU01.jpg)
 
 **Fluxo 2: Gerenciar Planos de Matrícula (HU-02)**
-_Descrição breve do fluxo._
-![Fluxo de Registro de Presença](Prototipo/PrototipoHU01.jpg)
+![Fluxo de Gerenciar Planos de Matrícula](Prototipo/PrototipoHU02.jpg)
 
 **Fluxo 3: Cadastrar Novos Alunos (HU-03)**
-_Descrição breve do fluxo._
-![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+![Fluxo de Cadastrar Novos Alunos](Prototipo/PrototipoHU03.jpg)
 
 **Fluxo 4: Realizar Chamada Digital (HU-04)**
-_Descrição breve do fluxo._
-![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+![Fluxo de Realizar Chamada Digital](Prototipo/PrototipoHU04.jpg)
 
 **Fluxo 5: Registrar Avaliações de Desempenho (HU-05)**
-_Descrição breve do fluxo._
-![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+![Fluxo de Registrar Avaliações de Desempenho](Prototipo/PrototipoHU05.jpg)
 
 **Fluxo 6: Publicar Comunicados para a Turma (HU-06)**
-_Descrição breve do fluxo._
-![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+![Fluxo de Publicar Comunicados para a Turma](Prototipo/PrototipoHU06.jpg)
 
 **Fluxo 7: Visualizar o Desempenho do Meu Filho (HU-07)**
-_Descrição breve do fluxo._
-![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+![Fluxo de Visualizar o Desempenho do Meu Filho](Prototipo/PrototipoHU07.jpg)
 
 **Fluxo 8: Acessar o Mural de Avisos e o Calendário (HU-08)**
-_Descrição breve do fluxo._
-![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+![Fluxo de Acessar o Mural de Avisos e o Calendário](Prototipo/PrototipoHU08.jpg)
 
 **Fluxo 9: Realizar Pagamentos Online (HU-09)**
-_Descrição breve do fluxo._
-![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+![Fluxo de Realizar Pagamentos Online](Prototipo/PrototipoHU09.jpg)
 
 ### 5.2. Tabela de Rastreabilidade
 
