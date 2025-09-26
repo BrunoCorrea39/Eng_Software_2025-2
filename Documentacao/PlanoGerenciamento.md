@@ -53,8 +53,8 @@ Esta matriz define as responsabilidades de cada membro da equipe nas atividades 
 
 | Atividade | Bruno | João | Guilherme |
 | :--- | :---: | :---: | :---: |
-| **Criar o Git e Docs** | X |  |  |
-| **Definir Objetivo** | X |  | O |
+| **Criar o Git e Docs** | X | O |  |
+| **Definir Objetivo** | X |  |  |
 | **Definir viabilidades** |  | O | X |
 | **Elicitar Novos Requisitos** | X | X | X |
 | **Documentar as HUs** | X | X | X |
