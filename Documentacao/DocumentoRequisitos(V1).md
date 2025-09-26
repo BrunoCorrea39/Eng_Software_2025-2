@@ -199,8 +199,6 @@ https://www.figma.com/design/Cd9R46PDLFjQw5j7Skf7Gy/Prot%C3%B3tipo-V1-Eng.-Softw
 
 ### 5.2. Tabela de Rastreabilidade
 
-**COMO PREENCHER:** Insira a tabela que conecta as HUs às telas do protótipo.
-
 | ID da HU | Telas do Protótipo Correspondentes |
 | :--- | :--- |
 | HU-01 | Tela de Comunicados, Pop-up de Confirmação |
