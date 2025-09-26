@@ -165,20 +165,46 @@ Critérios de Aceitação:
 
 ## 5. Protótipo de Média Fidelidade
 
-**COMO PREENCHER:** Apresente aqui o resultado da prototipação. Inclua o link para o projeto no Figma e as imagens dos principais fluxos de tela.
-
 O protótipo de média fidelidade foi desenvolvido na ferramenta Figma e pode ser acessado através do seguinte link:
-[**Link para o Protótipo no Figma**](https://www.figma.com/...)
+https://www.figma.com/design/Cd9R46PDLFjQw5j7Skf7Gy/Prot%C3%B3tipo-V1-Eng.-Software-2025-2?node-id=0-1&m=dev&t=B5ddhVfqiicEMemZ-1
 
 ### 5.1. Fluxos de Tela
 
-**Fluxo 1: Envio de Comunicado (HU-01)**
+**Fluxo 1: Visualizar Status Financeiro dos Alunos (HU-01)**
 _Descrição breve do fluxo._
 ![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
 
-**Fluxo 2: Registro de Presença (HU-02)**
+**Fluxo 2: Gerenciar Planos de Matrícula (HU-02)**
 _Descrição breve do fluxo._
 ![Fluxo de Registro de Presença](caminho/no/repositorio/fluxo_presenca.png)
+
+**Fluxo 3: Cadastrar Novos Alunos (HU-03)**
+_Descrição breve do fluxo._
+![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+
+**Fluxo 4: Realizar Chamada Digital (HU-04)**
+_Descrição breve do fluxo._
+![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+
+**Fluxo 5: Registrar Avaliações de Desempenho (HU-05)**
+_Descrição breve do fluxo._
+![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+
+**Fluxo 6: Publicar Comunicados para a Turma (HU-06)**
+_Descrição breve do fluxo._
+![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+
+**Fluxo 7: Visualizar o Desempenho do Meu Filho (HU-07)**
+_Descrição breve do fluxo._
+![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+
+**Fluxo 8: Acessar o Mural de Avisos e o Calendário (HU-08)**
+_Descrição breve do fluxo._
+![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+
+**Fluxo 9: Realizar Pagamentos Online (HU-09)**
+_Descrição breve do fluxo._
+![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
 
 ### 5.2. Tabela de Rastreabilidade
 
