@@ -172,11 +172,11 @@ https://www.figma.com/design/Cd9R46PDLFjQw5j7Skf7Gy/Prot%C3%B3tipo-V1-Eng.-Softw
 
 **Fluxo 1: Visualizar Status Financeiro dos Alunos (HU-01)**
 _Descrição breve do fluxo._
-![Fluxo de Envio de Comunicado](caminho/no/repositorio/fluxo_comunicado.png)
+![Fluxo de Envio de Comunicado](Prototipo/PrototipoHU01.jpg)
 
 **Fluxo 2: Gerenciar Planos de Matrícula (HU-02)**
 _Descrição breve do fluxo._
-![Fluxo de Registro de Presença](caminho/no/repositorio/fluxo_presenca.png)
+![Fluxo de Registro de Presença](Prototipo/PrototipoHU01.jpg)
 
 **Fluxo 3: Cadastrar Novos Alunos (HU-03)**
 _Descrição breve do fluxo._
