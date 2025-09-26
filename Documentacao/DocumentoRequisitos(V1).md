@@ -196,10 +196,3 @@ https://www.figma.com/design/Cd9R46PDLFjQw5j7Skf7Gy/Prot%C3%B3tipo-V1-Eng.-Softw
 
 **Fluxo 9: Realizar Pagamentos Online (HU-09)**
 ![Fluxo de Realizar Pagamentos Online](Prototipo/PrototipoHU09.jpg)
-
-### 5.2. Tabela de Rastreabilidade
-
-| ID da HU | Telas do Protótipo Correspondentes |
-| :--- | :--- |
-| HU-01 | Tela de Comunicados, Pop-up de Confirmação |
-| HU-02 | Dashboard do Treinador, Tela de Chamada |
