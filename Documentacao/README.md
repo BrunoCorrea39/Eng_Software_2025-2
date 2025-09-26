@@ -18,8 +18,16 @@ perspectiva dos usuários.
   - Demonstração de Protótipo: ilustração da proposta de sistema.
 
 ---
+O DocumentoRequisitos(V2) é onde temos:
+
+  - Descrição dos ajustes e melhorias baseadas nos aprendizados da V1
+  - Versão atualizada dos artefatos
+
+---
 O GerenciamentoRequisitos é onde temos: 
 
   - Processos de elicitação, análise, validação e priorização dos requisitos;
   - Controle de mudanças e versionamento;
   - Responsabilidades da equipe quanto à gestão dos requisitos.
+
+---
