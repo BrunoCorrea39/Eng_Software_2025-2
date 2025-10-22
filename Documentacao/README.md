@@ -24,7 +24,7 @@ O DocumentoRequisitos(V2) é onde temos:
   - Versão atualizada dos artefatos
 
 ---
-O GerenciamentoRequisitos é onde temos: 
+O PlanoGerenciamentoRequisitos é onde temos: 
 
   - Processos de elicitação, análise, validação e priorização dos requisitos;
   - Controle de mudanças e versionamento;
