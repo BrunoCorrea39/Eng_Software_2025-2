@@ -49,8 +49,18 @@ O diagrama abaixo ilustra a aplicação do padrão MVC na nossa aplicação Java
 ![Diagrama MVC](Diagramas/diagrama_MVC.jpg)
 
 ## 3. Padrões de projeto adotados
-### 3.1  
+### 3.1  SINGLETON - JOÃO
 * **Problema Resolvido:** Garantir que exista apenas uma instância da classe `ConfiguracaoApp`, responsável por carregar e fornecer configurações globais da aplicação (como nome da escolinha), evitando múltiplas leituras e inconsistências.
 * **Justificativa da Escolha:** O Singleton é o padrão ideal para recursos que devem ser únicos e globalmente acessíveis na aplicação, assegurando um ponto centralizado de acesso às configurações.
 * **Aplicação no Código:** A classe `ConfiguracaoApp` foi implementada no pacote `com.escolinha.config`. O acesso em outras classes (ex: `MainFrame`) é feito via `ConfiguracaoApp.getInstance().getPropriedade(...)`.
+
+  ### 3.2  OBSERVER - GUILHERME
+* **Problema Resolvido:** Notificar a interface gráfica (`MainFrame`) de forma desacoplada quando um evento relevante ocorre na camada de serviço, especificamente quando um pagamento de fatura é registrado com sucesso no `FinanceiroService`.
+* **Justificativa da Escolha:** O Observer permite que múltiplos objetos (Observers, como a `MainFrame`) sejam notificados automaticamente sobre mudanças de estado em outro objeto (Subject, como o `FinanceiroService`), sem que o Subject precise conhecer detalhes dos Observers. Isso promove baixo acoplamento e facilita a atualização da interface em resposta a eventos do back-end.
+* **Aplicação no Código:** As interfaces `Observer` e `Subject` foram criadas no pacote `com.escolinha.observer`. `FinanceiroService` implementa `Subject` e chama `notifyObservers()` após registrar um pagamento. `MainFrame` implementa `Observer`, se registra no `FinanceiroService` e exibe um `JOptionPane` no método `update()`.
+
+  ### 3.1  REPOSITORY - BRUNO
+* **Problema Resolvido:** Isolar a camada de serviço (`service`) dos detalhes de como os dados são armazenados e recuperados (neste caso, em coleções Java em memória), permitindo maior flexibilidade para futuras mudanças na persistência (ex: banco de dados no T3).
+* **Justificativa da Escolha:** O padrão Repository atua como uma abstração (semelhante a uma coleção) para o acesso aos dados de domínio (`Aluno`, `Turma`, etc.), centralizando as operações de CRUD e consultas. Isso desacopla a lógica de negócio da lógica de acesso a dados, melhora a testabilidade dos serviços (permitindo mocks dos repositórios) e a manutenabilidade geral do código. Classificado como **Estrutural** por organizar o acesso ao subsistema de dados.
+* **Aplicação no Código:** Interfaces como `AlunoRepository`, `TurmaRepository`, etc., foram definidas no pacote `com.escolinha.repository`. As implementações concretas (ex: `AlunoRepositoryMemoria`) que utilizam `Map` ou `List` foram criadas no mesmo pacote. As classes de serviço no pacote `com.escolinha.service` dependem exclusivamente das interfaces dos repositórios, recebendo as implementações via injeção de dependência no construtor.
 
