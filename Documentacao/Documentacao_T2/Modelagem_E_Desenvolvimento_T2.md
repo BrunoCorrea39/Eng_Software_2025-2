@@ -46,5 +46,5 @@ O padrão MVC foi selecionado por:
 
 O diagrama abaixo ilustra a aplicação do padrão MVC na nossa aplicação Java Swing:
 
-![Diagrama MVC](Diagramas/diagrama_MVC.jpg)
+![Diagrama MVC](Documentacao/Diagramas/diagrama_MVC.jpg)
 
