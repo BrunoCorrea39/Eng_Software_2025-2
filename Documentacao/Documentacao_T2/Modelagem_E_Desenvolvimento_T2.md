@@ -46,20 +46,5 @@ O padrão MVC foi selecionado por:
 
 O diagrama abaixo ilustra a aplicação do padrão MVC na nossa aplicação Java Swing:
 
-**(INSTRUÇÃO: Insira aqui a IMAGEM do diagrama de arquitetura MVC que você gerou, por exemplo, usando o código Mermaid ou desenhando em uma ferramenta.)**
+![Diagrama MVC](Diagramas/diagrama_MVC.jpg)
 
-```mermaid
-graph LR
-    Usuario -- Interage --> View[Visão (GUI Java Swing)];
-    View -- 1. Envia Ação --> Controller[Controlador (Classes Service)];
-    Controller -- 2. Chama Métodos --> Repository[Interfaces Repository];
-    Repository -- 3. Acessa Dados --> ModelMem[Modelo (POJOs + Impl. Memória)];
-    ModelMem -- 4. Retorna Dados --> Repository;
-    Repository -- 5. Retorna Dados --> Controller;
-    Controller -- 6. Envia Dados --> View;
-    View -- 7. Atualiza Exibição --> Usuario;
-
-    style View fill:#f9f,stroke:#333,stroke-width:2px;
-    style Controller fill:#ccf,stroke:#333,stroke-width:2px;
-    style Repository fill:#e8d57d,stroke:#333,stroke-width:2px;
-    style ModelMem fill:#9cf,stroke:#333,stroke-width:2px;
