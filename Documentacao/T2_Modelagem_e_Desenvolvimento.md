@@ -48,3 +48,9 @@ O diagrama abaixo ilustra a aplicação do padrão MVC na nossa aplicação Java
 
 ![Diagrama MVC](Diagramas/diagrama_MVC.jpg)
 
+## 3. Padrões de projeto adotados
+### 3.1  
+* **Problema Resolvido:** Garantir que exista apenas uma instância da classe `ConfiguracaoApp`, responsável por carregar e fornecer configurações globais da aplicação (como nome da escolinha), evitando múltiplas leituras e inconsistências.
+* **Justificativa da Escolha:** O Singleton é o padrão ideal para recursos que devem ser únicos e globalmente acessíveis na aplicação, assegurando um ponto centralizado de acesso às configurações.
+* **Aplicação no Código:** A classe `ConfiguracaoApp` foi implementada no pacote `com.escolinha.config`. O acesso em outras classes (ex: `MainFrame`) é feito via `ConfiguracaoApp.getInstance().getPropriedade(...)`.
+
