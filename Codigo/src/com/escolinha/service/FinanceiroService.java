@@ -58,6 +58,25 @@ public class FinanceiroService {
         return StatusFatura.PAGA;
     }
 
+    /**
+     * Gera uma nova fatura para um aluno com base em um plano de pagamento.
+     * @param alunoId O ID do aluno.
+     * @param plano O PlanoPagamento a ser usado como base.
+     * @param dataVencimento A data de vencimento da nova fatura.
+     * @return A fatura criada e salva no repositório.
+     */
+    public Fatura gerarFaturaParaAluno(int alunoId, PlanoPagamento plano, LocalDate dataVencimento) {
+        if (plano == null) {
+            throw new IllegalArgumentException("Plano de pagamento não pode ser nulo.");
+        }
+        // Cria uma nova fatura (ID 0) com o valor do plano
+        Fatura novaFatura = new Fatura(0, alunoId, plano.getValor(), dataVencimento);
+        novaFatura.setPlanoPagamentoId(plano.getId()); // Vincula o ID do plano (opcional, mas bom ter)
+
+        // Salva a fatura no repositório
+        return faturaRepository.salvar(novaFatura);
+    }
+    
     // ================= HU-02: Gerenciar Planos =================
     public PlanoPagamento criarPlano(String nome, BigDecimal valor, int duracaoMeses) {
         PlanoPagamento novoPlano = new PlanoPagamento(0, nome, valor, duracaoMeses);

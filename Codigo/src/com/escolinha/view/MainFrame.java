@@ -1,13 +1,59 @@
 package com.escolinha.view;
 
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
-import javax.swing.*;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 
-import com.escolinha.domain.*;
-import com.escolinha.repository.*;
-import com.escolinha.service.*;
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
+import com.escolinha.domain.Aluno;
+import com.escolinha.domain.Fatura;
+import com.escolinha.domain.PlanoPagamento;
+import com.escolinha.domain.TipoUsuario;
+import com.escolinha.domain.Treinador;
+import com.escolinha.domain.Turma;
+import com.escolinha.domain.Usuario;
+import com.escolinha.repository.AlunoRepository;
+import com.escolinha.repository.AlunoRepositoryMemoria;
+import com.escolinha.repository.AvaliacaoRepository;
+import com.escolinha.repository.AvaliacaoRepositoryMemoria;
+import com.escolinha.repository.ComunicadoRepository;
+import com.escolinha.repository.ComunicadoRepositoryMemoria;
+import com.escolinha.repository.FaturaRepository;
+import com.escolinha.repository.FaturaRepositoryMemoria;
+import com.escolinha.repository.FrequenciaRepository;
+import com.escolinha.repository.FrequenciaRepositoryMemoria;
+import com.escolinha.repository.PlanoPagamentoRepository;
+import com.escolinha.repository.PlanoPagamentoRepositoryMemoria;
+import com.escolinha.repository.ResponsavelRepository;
+import com.escolinha.repository.ResponsavelRepositoryMemoria;
+import com.escolinha.repository.TurmaRepository;
+import com.escolinha.repository.TurmaRepositoryMemoria;
+import com.escolinha.repository.UsuarioRepository;
+import com.escolinha.repository.UsuarioRepositoryMemoria;
+import com.escolinha.service.AlunoService;
+import com.escolinha.service.ComunicadoService;
+import com.escolinha.service.FinanceiroService;
+import com.escolinha.service.TurmaService;
 
 public class MainFrame extends JFrame {
 
@@ -29,7 +75,8 @@ public class MainFrame extends JFrame {
             new FinanceiroService(faturaRepository, planoPagamentoRepository, alunoRepository);
     private final TurmaService turmaService =
             new TurmaService(turmaRepository, alunoRepository, frequenciaRepository, avaliacaoRepository, comunicadoRepository);
-
+    private final ComunicadoService comunicadoService = new ComunicadoService(comunicadoRepository);
+    
     // --- Usuário logado ---
     private final Usuario usuarioAtual;
 
@@ -381,21 +428,108 @@ public class MainFrame extends JFrame {
 
     // ---------- Dados iniciais ----------
     private void adicionarDadosIniciaisParaTeste() {
+        System.out.println("--- Verificando a necessidade de adicionar dados iniciais (SEED) ---");
+
+        // Condição para popular os dados: só executa se o repositório de usuários estiver vazio.
+        if (!usuarioRepository.listarTodos().isEmpty()) {
+            System.out.println("--- Dados já existem. Poupando a criação de dados iniciais. ---");
+            return;
+        }
+
+        System.out.println("--- Iniciando a criação de dados (SEED) ---");
         try {
-            Optional<Usuario> t = usuarioRepository.buscarPorLogin("carlos@escolinha.com");
-            Treinador treinador;
-            if (t.isPresent()) {
-                treinador = (Treinador) t.get();
-            } else {
-                treinador = (Treinador) usuarioRepository.salvar(
-                        new Treinador(0, "Prof. Carlos", "carlos@escolinha.com"));
-            }
-            if (turmaRepository.listarTodas().isEmpty()) {
-                turmaService.criarTurma("Sub-10 Manhã", treinador.getId());
-                turmaService.criarTurma("Sub-12 Tarde", treinador.getId());
-            }
+            // 1. Criar Planos de Pagamento
+            System.out.println("1. Criando Planos de Pagamento...");
+            PlanoPagamento planoMensal = financeiroService.criarPlano("Mensal", new BigDecimal("150.00"), 1);
+            PlanoPagamento planoSemestral = financeiroService.criarPlano("Semestral", new BigDecimal("800.00"), 6);
+            System.out.println("   - Planos criados.");
+
+            // 2. Criar Treinador e Turmas
+            System.out.println("\n2. Criando Treinador e Turmas...");
+            Treinador treinadorTeste = new Treinador(0, "Prof. Carlos", "carlos@escolinha.com");
+            treinadorTeste = (Treinador) usuarioRepository.salvar(treinadorTeste);
+            int treinadorIdTeste = treinadorTeste.getId();
+            System.out.println("   - Treinador '" + treinadorTeste.getNome() + "' criado com ID: " + treinadorIdTeste);
+
+            Turma turmaSub10 = turmaService.criarTurma("Sub-10 Manhã", treinadorIdTeste);
+            Turma turmaSub12 = turmaService.criarTurma("Sub-12 Tarde", treinadorIdTeste);
+            System.out.println("   - Turmas criadas.");
+
+            // 3. Criar Alunos (4 originais + 6 novos = 10 total)
+            System.out.println("\n3. Criando Alunos...");
+            Aluno alunoJoao = alunoService.cadastrarAluno("João Silva", LocalDate.of(2015, 5, 10), new ArrayList<>(), "Nenhuma");
+            Aluno alunoMaria = alunoService.cadastrarAluno("Maria Souza", LocalDate.of(2014, 8, 22), new ArrayList<>(), "Alergia a amendoim");
+            Aluno alunoPedro = alunoService.cadastrarAluno("Pedro Lima", LocalDate.of(2013, 1, 15), new ArrayList<>(), "");
+            Aluno alunoAna = alunoService.cadastrarAluno("Ana Pereira", LocalDate.of(2015, 2, 28), new ArrayList<>(), "Asma");
+            // --- 6 Novos Alunos ---
+            Aluno alunoLucas = alunoService.cadastrarAluno("Lucas Martins", LocalDate.of(2015, 11, 5), new ArrayList<>(), "");
+            Aluno alunoSofia = alunoService.cadastrarAluno("Sofia Costa", LocalDate.of(2014, 3, 12), new ArrayList<>(), "");
+            Aluno alunoMateus = alunoService.cadastrarAluno("Mateus Alves", LocalDate.of(2013, 7, 19), new ArrayList<>(), "Nenhuma");
+            Aluno alunoJulia = alunoService.cadastrarAluno("Julia Santos", LocalDate.of(2012, 12, 1), new ArrayList<>(), "");
+            Aluno alunoDavi = alunoService.cadastrarAluno("Davi Oliveira", LocalDate.of(2015, 9, 30), new ArrayList<>(), "");
+            Aluno alunoLaura = alunoService.cadastrarAluno("Laura Rodrigues", LocalDate.of(2014, 6, 8), new ArrayList<>(), "");
+            System.out.println("   - 10 alunos de teste criados.");
+
+            // Adicionar alunos às turmas
+            turmaService.adicionarAlunoNaTurma(turmaSub10.getId(), alunoJoao.getId());
+            turmaService.adicionarAlunoNaTurma(turmaSub10.getId(), alunoMaria.getId());
+            turmaService.adicionarAlunoNaTurma(turmaSub12.getId(), alunoPedro.getId());
+            turmaService.adicionarAlunoNaTurma(turmaSub10.getId(), alunoAna.getId());
+            // --- Adicionando novos alunos ---
+            turmaService.adicionarAlunoNaTurma(turmaSub10.getId(), alunoLucas.getId());
+            turmaService.adicionarAlunoNaTurma(turmaSub10.getId(), alunoSofia.getId()); // Turma Sub-10 cheia!
+            turmaService.adicionarAlunoNaTurma(turmaSub12.getId(), alunoMateus.getId());
+            turmaService.adicionarAlunoNaTurma(turmaSub12.getId(), alunoJulia.getId());
+            turmaService.adicionarAlunoNaTurma(turmaSub10.getId(), alunoDavi.getId());
+            turmaService.adicionarAlunoNaTurma(turmaSub12.getId(), alunoLaura.getId());
+            System.out.println("   - Alunos distribuídos nas turmas.");
+
+            // 4. Gerar Faturas para os Alunos
+            System.out.println("\n4. Gerando Faturas...");
+            // Alunos Originais
+            financeiroService.gerarFaturaParaAluno(alunoJoao.getId(), planoMensal, LocalDate.now().plusDays(5)); // Pendente
+            financeiroService.gerarFaturaParaAluno(alunoMaria.getId(), planoMensal, LocalDate.now().minusDays(10)); // Vencida
+            financeiroService.gerarFaturaParaAluno(alunoPedro.getId(), planoSemestral, LocalDate.now().plusDays(15)); // Pendente Semestral
+            Fatura faturaDaAna = financeiroService.gerarFaturaParaAluno(alunoAna.getId(), planoMensal, LocalDate.now().minusDays(30));
+            financeiroService.registrarPagamentoFatura(faturaDaAna.getId(), LocalDate.now().minusDays(25)); // Paga
+            // Faturas para Novos Alunos (Exemplos)
+            financeiroService.gerarFaturaParaAluno(alunoLucas.getId(), planoMensal, LocalDate.now().plusDays(1)); // Pendente
+            financeiroService.gerarFaturaParaAluno(alunoSofia.getId(), planoMensal, LocalDate.now().minusDays(5)); // Vencida
+            financeiroService.gerarFaturaParaAluno(alunoMateus.getId(), planoMensal, LocalDate.now().plusDays(10)); // Pendente
+            Fatura faturaJulia = financeiroService.gerarFaturaParaAluno(alunoJulia.getId(), planoSemestral, LocalDate.now().minusDays(180));
+            financeiroService.registrarPagamentoFatura(faturaJulia.getId(), LocalDate.now().minusDays(170)); // Paga (Semestral)
+            financeiroService.gerarFaturaParaAluno(alunoDavi.getId(), planoMensal, LocalDate.now().plusDays(8)); // Pendente
+            financeiroService.gerarFaturaParaAluno(alunoLaura.getId(), planoMensal, LocalDate.now().minusDays(2)); // Vencida
+            System.out.println("   - Faturas geradas para todos os alunos.");
+
+            // 5. Criar Comunicados (Gerais e Específicos)
+            System.out.println("\n5. Criando Comunicados...");
+            // Assumindo que Admin tem ID 1 (precisaria criar um Admin também)
+            int adminIdTeste = 1; // Precisa criar um usuário Admin ou usar o ID do Treinador por enquanto
+            // Criar um usuário admin:
+            // Administrador adminTeste = new Administrador(0, "Admin Escolinha", "admin@escolinha.com");
+            // adminTeste = (Administrador) usuarioRepository.salvar(adminTeste);
+            // adminIdTeste = adminTeste.getId();
+
+            // Comunicado Geral 1 (Recente)
+            comunicadoService.publicarComunicadoGeral(adminIdTeste, "Feriado Próximo",
+                    "Prezados pais e alunos,\n\nInformamos que não haverá treino na próxima sexta-feira devido ao feriado.\n\nAtenciosamente,\nA Direção.");
+            // Comunicado Geral 2 (Mais antigo)
+            comunicadoService.publicarComunicadoGeral(adminIdTeste, "Início das Matrículas 2026",
+                    "As matrículas para o próximo ano já estão abertas! Procure a secretaria para mais informações."); // Data específica
+
+            // Comunicado Específico para Turma Sub-10
+            turmaService.publicarComunicadoTurma(turmaSub10.getId(), treinadorIdTeste, "Jogo Amistoso Sub-10",
+                    "Olá, pais da Sub-10!\n\nTeremos um jogo amistoso no próximo sábado às 9h no campo X. Por favor, confirmem a presença de seus filhos.\n\nObrigado,\nProf. Carlos");
+            System.out.println("   - Comunicados criados.");
+
+
+            System.out.println("\n--- Fim da criação de dados (SEED) ---");
+
         } catch (Exception e) {
+            System.err.println("Erro crítico ao adicionar dados iniciais (SEED): " + e.getMessage());
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Erro ao inicializar dados: " + e.getMessage(), "Erro de Inicialização", JOptionPane.ERROR_MESSAGE);
         }
     }
 
