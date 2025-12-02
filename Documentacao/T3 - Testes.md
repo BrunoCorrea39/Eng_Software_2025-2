@@ -80,7 +80,7 @@ Os testes cobrem as camadas de **Serviço (Service)** e **Repositório (Reposito
 
 ## 2.3. Evidência de Execução
 
-> *(COLE AQUI O PRINT DA BARRA VERDE DO JUNIT QUE VOCÊ TIROU OU TIRE UM NOVO AGORA)*
+![Testes realizados com sucesso](Prototipo/PrototipoHU01.jpg)
 
 ## 3. TDD - Desenvolvimento de Novas Funcionalidades (20%)
 
