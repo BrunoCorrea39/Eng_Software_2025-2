@@ -42,7 +42,7 @@ if (alunoRepository.existeAlunoPorNomeEData(nome.trim(), dataNasc)) {
 ```
 
 
-🔧 Bug 2 — Criação de planos inválidos
+##🔧 Bug 2 — Criação de planos inválidos
 
 Problema:
 Era possível criar planos financeiros com:
@@ -79,7 +79,7 @@ public PlanoPagamento criarPlano(String nome, BigDecimal valor, int duracaoMeses
 }
 ```
 
-🔧 Bug 3 — Mensagens confusas ao vincular planos
+##🔧 Bug 3 — Mensagens confusas ao vincular planos
 
 Problema:
 Quando era atribuído um plano inexistente a um aluno, o sistema gerava uma exceção genérica, dificultando a identificação do problema.
@@ -104,7 +104,7 @@ public synchronized void atribuirPlanoAoAluno(int alunoId, int planoId) {
     gerarPrimeiraFaturaDoPlano(alunoId, plano);
 }
 ```
-🔧 Bug 4 — Status financeiro não atualizava após pagamento
+##🔧 Bug 4 — Status financeiro não atualizava após pagamento
 
 Problema:
 Ao registrar o pagamento de uma fatura, o sistema atualizava o status da fatura, mas nem sempre notificava corretamente os observers responsáveis por atualizar telas e estados dependentes.
@@ -135,7 +135,7 @@ public boolean registrarPagamentoFatura(int faturaId, LocalDate dataPagamento) {
     return false; // já estava paga
 }
 ```
-2️⃣ Nova Funcionalidade via TDD — Calcular Total Pago pelo Aluno (10%)
+##2️⃣ Nova Funcionalidade via TDD — Calcular Total Pago pelo Aluno (10%)
 
 Objetivo:
 Somar todas as faturas pagas de um aluno, ignorando faturas pendentes ou vencidas.
@@ -159,7 +159,7 @@ public BigDecimal calcularTotalPagoAluno(int alunoId) {
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 }
 ```
-3️⃣ Integração das Funcionalidades (10%)
+##3️⃣ Integração das Funcionalidades (10%)
 
 O fluxo integrado do sistema após as manutenções ficou assim:
 
@@ -212,7 +212,7 @@ getStatusFinanceiroAlunos().
 
 Esse fluxo demonstra a integração entre cadastro, planos, faturas, pagamentos, observadores e cálculo financeiro.
 
-4️⃣ Refatorações Gerais no Código (10%)
+##4️⃣ Refatorações Gerais no Código (10%)
 
 Além dos bugs corrigidos e da nova funcionalidade, foram realizadas refatorações para melhorar a qualidade do código:
 
