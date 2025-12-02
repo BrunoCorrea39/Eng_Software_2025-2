@@ -193,17 +193,17 @@ private void gerarPrimeiraFaturaDoPlano(int alunoId, PlanoPagamento plano) {
 }
 ```
 
-Registro de pagamento de fatura
+-**Registro de pagamento de fatura**
 
-registrarPagamentoFatura(...) (corrigido no Bug 4).
+ -registrarPagamentoFatura(...) (corrigido no Bug 4).
 
-Cálculo do total pago pelo aluno
+-**Cálculo do total pago pelo aluno**
 
-calcularTotalPagoAluno(...) (nova funcionalidade via TDD).
+ -calcularTotalPagoAluno(...) (nova funcionalidade via TDD).
 
-Consulta do status financeiro consolidado
+-**Consulta do status financeiro consolidado**
 
-getStatusFinanceiroAlunos().
+ -getStatusFinanceiroAlunos().
 
 Esse fluxo demonstra a integração entre cadastro, planos, faturas, pagamentos, observadores e cálculo financeiro.
 
