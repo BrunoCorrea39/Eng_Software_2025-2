@@ -10,7 +10,7 @@ public class AlunoRepositoryMemoria implements AlunoRepository {
     // ---------- Singleton ----------
     private static final AlunoRepositoryMemoria INSTANCE = new AlunoRepositoryMemoria();
     public static AlunoRepositoryMemoria getInstance() { return INSTANCE; }
-    private AlunoRepositoryMemoria() {}
+    public AlunoRepositoryMemoria() {}
 
     // ---------- Armazenamento compartilhado ----------
     private static final Map<Integer, Aluno> DB = new ConcurrentHashMap<>();

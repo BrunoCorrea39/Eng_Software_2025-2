@@ -13,7 +13,7 @@ public class ComunicadoRepositoryMemoria implements ComunicadoRepository {
     // -------- Singleton --------
     private static final ComunicadoRepositoryMemoria INSTANCE = new ComunicadoRepositoryMemoria();
     public static ComunicadoRepositoryMemoria getInstance() { return INSTANCE; }
-    private ComunicadoRepositoryMemoria() {} // evita new externo
+    public ComunicadoRepositoryMemoria() {} // evita new externo
 
     // -------- Armazenamento compartilhado --------
     private static final Map<Integer, Comunicado> DB = new ConcurrentHashMap<>();

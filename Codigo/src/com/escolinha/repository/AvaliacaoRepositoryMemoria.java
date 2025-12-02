@@ -12,7 +12,7 @@ public class AvaliacaoRepositoryMemoria implements AvaliacaoRepository {
     // ----------- Singleton -----------
     private static final AvaliacaoRepositoryMemoria INSTANCE = new AvaliacaoRepositoryMemoria();
     public static AvaliacaoRepositoryMemoria getInstance() { return INSTANCE; }
-    private AvaliacaoRepositoryMemoria() {} // construtor privado
+    public AvaliacaoRepositoryMemoria() {} // construtor privado
 
     // ----------- Armazenamento compartilhado -----------
     private static final Map<Integer, Avaliacao> DB = new ConcurrentHashMap<>();

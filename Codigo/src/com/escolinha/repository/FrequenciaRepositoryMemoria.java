@@ -13,7 +13,7 @@ public class FrequenciaRepositoryMemoria implements FrequenciaRepository {
     // ---------- Singleton ----------
     private static final FrequenciaRepositoryMemoria INSTANCE = new FrequenciaRepositoryMemoria();
     public static FrequenciaRepositoryMemoria getInstance() { return INSTANCE; }
-    private FrequenciaRepositoryMemoria() {} // impede new
+    public FrequenciaRepositoryMemoria() {} // impede new
 
     // ---------- Armazenamento compartilhado ----------
     private static final Map<Integer, Frequencia> DB = new ConcurrentHashMap<>();

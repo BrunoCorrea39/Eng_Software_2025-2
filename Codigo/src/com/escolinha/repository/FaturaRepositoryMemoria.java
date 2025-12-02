@@ -14,7 +14,7 @@ public class FaturaRepositoryMemoria implements FaturaRepository {
     // ---------- Singleton ----------
     private static final FaturaRepositoryMemoria INSTANCE = new FaturaRepositoryMemoria();
     public static FaturaRepositoryMemoria getInstance() { return INSTANCE; }
-    private FaturaRepositoryMemoria() {} // impede new
+    public FaturaRepositoryMemoria() {} // impede new
 
     // ---------- Armazenamento compartilhado ----------
     private static final Map<Integer, Fatura> DB = new ConcurrentHashMap<>();

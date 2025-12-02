@@ -10,7 +10,7 @@ public class TurmaRepositoryMemoria implements TurmaRepository {
     // ---------- Singleton ----------
     private static final TurmaRepositoryMemoria INSTANCE = new TurmaRepositoryMemoria();
     public static TurmaRepositoryMemoria getInstance() { return INSTANCE; }
-    private TurmaRepositoryMemoria() {} // impede new externo
+    public TurmaRepositoryMemoria() {} // impede new externo
 
     // ---------- Armazenamento compartilhado ----------
     private static final Map<Integer, Turma> DB = new ConcurrentHashMap<>();

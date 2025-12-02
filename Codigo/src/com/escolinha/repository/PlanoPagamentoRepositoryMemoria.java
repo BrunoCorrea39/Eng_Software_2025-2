@@ -10,7 +10,7 @@ public class PlanoPagamentoRepositoryMemoria implements PlanoPagamentoRepository
     // ---------- Singleton ----------
     private static final PlanoPagamentoRepositoryMemoria INSTANCE = new PlanoPagamentoRepositoryMemoria();
     public static PlanoPagamentoRepositoryMemoria getInstance() { return INSTANCE; }
-    private PlanoPagamentoRepositoryMemoria() {} // Impede instanciamento externo
+    public PlanoPagamentoRepositoryMemoria() {} // Impede instanciamento externo
 
     // ---------- Armazenamento compartilhado (permanece vivo enquanto o programa roda) ----------
     private static final Map<Integer, PlanoPagamento> DB = new ConcurrentHashMap<>();
