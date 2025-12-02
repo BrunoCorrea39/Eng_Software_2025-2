@@ -82,7 +82,7 @@ Os testes cobrem as camadas de **Serviço (Service)** e **Repositório (Reposito
 
 ![Testes realizados com sucesso](Fotos/testes_sucesso.jpg)
 
-## 3. TDD - Desenvolvimento de Novas Funcionalidades (20%)
+## 3. TDD - Desenvolvimento de Novas Funcionalidades
 
 Implementamos três novas regras de negócio utilizando o ciclo **Red-Green-Refactor**:
 
