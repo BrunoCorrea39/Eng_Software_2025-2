@@ -42,7 +42,7 @@ if (alunoRepository.existeAlunoPorNomeEData(nome.trim(), dataNasc)) {
 ```
 
 
-##🔧 Bug 2 — Criação de planos inválidos
+## 🔧 Bug 2 — Criação de planos inválidos
 
 Problema:
 Era possível criar planos financeiros com:
