@@ -204,19 +204,24 @@ private void gerarPrimeiraFaturaDoPlano(int alunoId, PlanoPagamento plano) {
 }
 ```
 
--**Registro de pagamento de fatura**
+- **Registro de pagamento de fatura**
+  - Realizado por `registrarPagamentoFatura(...)`
+  - Atualiza o status da fatura
+  - Notifica corretamente os observers (correção aplicada no Bug 4)
 
- -registrarPagamentoFatura(...) (corrigido no Bug 4).
+- **Cálculo do total pago pelo aluno**
+  - Executado por `calcularTotalPagoAluno(...)`
+  - Soma apenas faturas com status **PAGA**
+  - Funcionalidade criada via TDD no Trabalho 3
 
--**Cálculo do total pago pelo aluno**
+- **Consulta do status financeiro consolidado**
+  - Obtida através de `getStatusFinanceiroAlunos()`
+  - Retorna se o aluno está **PAGO**, **PENDENTE** ou **VENCIDA**, considerando todas as suas faturas
 
- -calcularTotalPagoAluno(...) (nova funcionalidade via TDD).
+---
 
--**Consulta do status financeiro consolidado**
+Esse fluxo demonstra a integração completa entre cadastro de alunos, criação e vinculação de planos, geração automática de faturas, registro de pagamentos, notificação de observers e cálculo financeiro, garantindo consistência em todo o sistema.
 
- -getStatusFinanceiroAlunos().
-
-Esse fluxo demonstra a integração entre cadastro, planos, faturas, pagamentos, observadores e cálculo financeiro.
 
 ## 4️⃣ Refatorações Gerais no Código (10%)
 
