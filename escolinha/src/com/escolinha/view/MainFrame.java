@@ -4,6 +4,13 @@ import java.awt.*;
 import java.time.LocalDate;
 import java.util.*;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JTable;
+import java.util.List;
+import java.util.stream.Collectors; // importante para o join dos nomes dos alunos
+
+
+
 
 import com.escolinha.domain.*;
 import com.escolinha.repository.*;
@@ -37,98 +44,138 @@ public class MainFrame extends JFrame {
         this.usuarioAtual = usuarioAtual;
         adicionarDadosIniciaisParaTeste();
 
-        setTitle("Sistema de Gestão - Escolinha de Futebol");
-        setSize(920, 250);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLocationRelativeTo(null);
-        setJMenuBar(criarMenuSessao());
+        JPanel root = new JPanel(new BorderLayout(10, 10));
+        root.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        add(root, BorderLayout.CENTER);
+        add(root, BorderLayout.CENTER);
 
-        JPanel painelPrincipal = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 10));
-        painelPrincipal.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+	     // Ajusta tamanho e aparência
+	     pack(); // calcula automaticamente o melhor tamanho
+	     setMinimumSize(new Dimension(900, 500)); // evita janelas pequenas
+	     setLocationRelativeTo(null); // centraliza na tela
+	     setExtendedState(JFrame.NORMAL); // abre em estado normal (não minimizado
 
+        // título já existente
         JLabel lblTitulo = new JLabel("Bem-vindo, " + usuarioAtual.getNome() + " (" + usuarioAtual.getTipoUsuario() + ")");
         JPanel painelTitulo = new JPanel(new FlowLayout(FlowLayout.CENTER));
         painelTitulo.add(lblTitulo);
         add(painelTitulo, BorderLayout.NORTH);
 
-        // --- Botões do sistema ---
+        // --- Seções empilhadas no centro ---
+        JPanel centro = new JPanel();
+        centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
+        root.add(centro, BorderLayout.CENTER);
+
+        // Seções (bastante neutras: borda com título + FlowLayout à esquerda)
+        JPanel secCadastros = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 8));
+        secCadastros.setBorder(BorderFactory.createTitledBorder("Cadastros"));
+
+        JPanel secListagens = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 8));
+        secListagens.setBorder(BorderFactory.createTitledBorder("Listagens"));
+
+        JPanel secOperacoes = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 8));
+        secOperacoes.setBorder(BorderFactory.createTitledBorder("Operações"));
+
+        // --- Botões (reutilizando seus listeners atuais) ---
+        // Cadastros (ADMIN)
         JButton btnCadastrarAluno = new JButton("Cadastrar Aluno");
         btnCadastrarAluno.addActionListener(e -> abrirPainelCadastroAluno());
-        painelPrincipal.add(btnCadastrarAluno);
-
-        JButton btnListarAlunos = new JButton("Listar Alunos");
-        btnListarAlunos.addActionListener(e -> listarAlunos());
-        painelPrincipal.add(btnListarAlunos);
-
-        JButton btnRegistrarPresenca = new JButton("Registrar Presença");
-        btnRegistrarPresenca.addActionListener(e -> abrirPainelChamada());
-        painelPrincipal.add(btnRegistrarPresenca);
-
-        JButton btnVerStatusFinanceiro = new JButton("Status Financeiro");
-        btnVerStatusFinanceiro.addActionListener(e -> abrirPainelStatusFinanceiro());
-        painelPrincipal.add(btnVerStatusFinanceiro);
-
-        JButton btnGerenciarPlanos = new JButton("Gerenciar Planos");
-        btnGerenciarPlanos.addActionListener(e -> abrirPainelGerenciarPlanos());
-        painelPrincipal.add(btnGerenciarPlanos);
-
-        JButton btnRegistrarAvaliacao = new JButton("Registrar Avaliação");
-        btnRegistrarAvaliacao.addActionListener(e -> abrirPainelRegistroAvaliacao());
-        painelPrincipal.add(btnRegistrarAvaliacao);
-
-        JButton btnPublicarComunicado = new JButton("Publicar Comunicado");
-        btnPublicarComunicado.addActionListener(e -> abrirPainelPublicarComunicado());
-        painelPrincipal.add(btnPublicarComunicado);
-
-        JButton btnVerDesempenho = new JButton("Ver Desempenho Aluno");
-        btnVerDesempenho.addActionListener(e -> abrirPainelDesempenhoAluno());
-        painelPrincipal.add(btnVerDesempenho);
-
-        JButton btnMuralAvisos = new JButton("Mural de Avisos");
-        btnMuralAvisos.addActionListener(e -> abrirPainelMuralAvisos());
-        painelPrincipal.add(btnMuralAvisos);
-
-        JButton btnRealizarPagamento = new JButton("Realizar Pagamento");
-        btnRealizarPagamento.addActionListener(e -> abrirPainelPagamento());
-        painelPrincipal.add(btnRealizarPagamento);
 
         JButton btnCadastrarResponsavel = new JButton("Cadastrar Responsável");
         btnCadastrarResponsavel.addActionListener(e -> abrirCadastroResponsavel());
-        painelPrincipal.add(btnCadastrarResponsavel);
 
         JButton btnCadastrarTreinador = new JButton("Cadastrar Treinador");
         btnCadastrarTreinador.addActionListener(e -> abrirCadastroTreinador());
-        painelPrincipal.add(btnCadastrarTreinador);
-        
-        JButton btnVoltarLogin = new JButton("Voltar para Login");
-        btnVoltarLogin.addActionListener(e -> {
-            dispose(); // Fecha a janela atual
-            abrirComLogin(); // Reabre a tela de login
-        });
-        painelPrincipal.add(btnVoltarLogin);
 
-        // --- ACL por perfil ---
+        JButton btnGerenciarPlanos = new JButton("Gerenciar Planos");
+        btnGerenciarPlanos.addActionListener(e -> abrirPainelGerenciarPlanos());
+
+        // Listagens (ADMIN)
+        JButton btnListarAlunos = new JButton("Listar Alunos");
+        btnListarAlunos.addActionListener(e -> listarAlunos());
+
+        JButton btnListarTreinadores = new JButton("Listar Treinadores");
+        btnListarTreinadores.addActionListener(e -> listarTreinadores());
+
+        JButton btnListarResponsaveis = new JButton("Listar Responsáveis");
+        btnListarResponsaveis.addActionListener(e -> listarResponsaveis());
+
+        JButton btnVerStatusFinanceiro = new JButton("Status Financeiro");
+        btnVerStatusFinanceiro.addActionListener(e -> abrirPainelStatusFinanceiro());
+
+        // Operações (variável por perfil)
+        JButton btnRegistrarPresenca = new JButton("Registrar Presença");
+        btnRegistrarPresenca.addActionListener(e -> abrirPainelChamada());
+
+        JButton btnRegistrarAvaliacao = new JButton("Registrar Avaliação");
+        btnRegistrarAvaliacao.addActionListener(e -> abrirPainelRegistroAvaliacao());
+
+        JButton btnPublicarComunicado = new JButton("Publicar Comunicado");
+        btnPublicarComunicado.addActionListener(e -> abrirPainelPublicarComunicado());
+
+        JButton btnVerDesempenho = new JButton("Ver Desempenho Aluno");
+        btnVerDesempenho.addActionListener(e -> abrirPainelDesempenhoAluno());
+
+        JButton btnMuralAvisos = new JButton("Mural de Avisos");
+        btnMuralAvisos.addActionListener(e -> abrirPainelMuralAvisos());
+
+        JButton btnRealizarPagamento = new JButton("Realizar Pagamento");
+        btnRealizarPagamento.addActionListener(e -> abrirPainelPagamento());
+
+        // --- Regras de visibilidade por perfil ---
         TipoUsuario tipo = usuarioAtual.getTipoUsuario();
         boolean isAdmin = tipo == TipoUsuario.ADMINISTRADOR;
         boolean isTreinador = tipo == TipoUsuario.TREINADOR;
         boolean isResp = tipo == TipoUsuario.RESPONSAVEL;
 
-        btnCadastrarAluno.setVisible(isAdmin);
-        btnListarAlunos.setVisible(isAdmin || isTreinador);
-        btnRegistrarPresenca.setVisible(isTreinador);
-        btnVerStatusFinanceiro.setVisible(isAdmin);
-        btnGerenciarPlanos.setVisible(isAdmin);
-        btnRegistrarAvaliacao.setVisible(isTreinador);
-        btnPublicarComunicado.setVisible(isTreinador);
-        btnVerDesempenho.setVisible(isTreinador || isResp);
-        btnMuralAvisos.setVisible(true);
-        btnRealizarPagamento.setVisible(isResp);
-        btnCadastrarResponsavel.setVisible(isAdmin);
-        btnCadastrarTreinador.setVisible(isAdmin);
-        
-        
-        	
-        add(painelPrincipal, BorderLayout.CENTER);
+        // Monta seções de ADMIN
+        if (isAdmin) {
+            // Cadastros
+            secCadastros.add(btnCadastrarAluno);
+            secCadastros.add(btnCadastrarResponsavel);
+            secCadastros.add(btnCadastrarTreinador);
+            
+            centro.add(secCadastros);
+
+            // Listagens
+            secListagens.add(btnListarAlunos);
+            secListagens.add(btnListarTreinadores);
+            secListagens.add(btnListarResponsaveis);
+    
+            centro.add(secListagens);
+        }
+
+        // Operações (para todos, mas com botões específicos)
+        if (isTreinador) {
+            secOperacoes.add(btnListarAlunos);          // útil ao treinador também
+            secOperacoes.add(btnRegistrarPresenca);
+            secOperacoes.add(btnRegistrarAvaliacao);
+            secOperacoes.add(btnPublicarComunicado);
+            secOperacoes.add(btnVerDesempenho);
+            secOperacoes.add(btnMuralAvisos);
+        }
+        if (isResp) {
+            secOperacoes.add(btnVerDesempenho);
+            secOperacoes.add(btnMuralAvisos);
+            secOperacoes.add(btnRealizarPagamento);
+        }
+        // Admin também pode ver operações gerais, se quiser
+        if (isAdmin) {
+        	secOperacoes.add(btnVerStatusFinanceiro);
+        	secOperacoes.add(btnGerenciarPlanos);
+            secOperacoes.add(btnVerDesempenho);
+            secOperacoes.add(btnMuralAvisos);
+        }
+
+        centro.add(secOperacoes);
+
+        // --- Rodapé: Voltar para Login alinhado à direita ---
+        JPanel rodape = new JPanel(new BorderLayout());
+        JButton btnVoltarLogin = new JButton("Voltar para Login");
+        btnVoltarLogin.addActionListener(e -> { dispose(); abrirComLogin(); });
+        rodape.add(btnVoltarLogin, BorderLayout.EAST);
+        root.add(rodape, BorderLayout.SOUTH);
+
     }
 
     // --- Menu Sessão ---
@@ -224,30 +271,173 @@ public class MainFrame extends JFrame {
 
 
     private void listarAlunos() {
-        JTextArea displayArea = new JTextArea(15, 50);
-        displayArea.setEditable(false);
-        displayArea.setFont(new Font("Monospaced", Font.PLAIN, 12));
-        StringBuilder sb = new StringBuilder("--- Alunos Cadastrados ---\n\n");
-        sb.append(String.format("%-5s %-30s %-15s\n", "ID", "Nome", "Nascimento"));
-        sb.append("------------------------------------------------------\n");
+        // Modelo da tabela (colunas fixas; linhas dinâmicas)
+        DefaultTableModel model = new DefaultTableModel(
+            new Object[]{"ID", "Nome", "Nascimento", "Turmas", "Responsáveis", "Obs. Médicas"}, 0
+        ) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
+
         try {
-            alunoService.listarAlunos().forEach(a ->
-                    sb.append(String.format("%-5d %-30s %-15s\n",
-                            a.getId(), a.getNome(), a.getDataNascimento().toString()))
-            );
+            // Carrega todas as turmas uma vez para otimizar
+            java.util.List<Turma> todasTurmas = turmaRepository.listarTodas();
+
+            for (Aluno a : alunoService.listarAlunos()) {
+                // Turmas do aluno (pelo contains do próprio objeto aluno na turma)
+                String turmasDoAluno = todasTurmas.stream()
+                        .filter(t -> t.getAlunos() != null &&
+                                     t.getAlunos().stream().anyMatch(x -> x.getId() == a.getId()))
+                        .map(Turma::getNome)
+                        .sorted()
+                        .collect(java.util.stream.Collectors.joining(", "));
+
+                if (turmasDoAluno.isBlank()) turmasDoAluno = "-";
+
+                // Responsáveis do aluno
+                String responsaveis = (a.getResponsaveis() == null || a.getResponsaveis().isEmpty())
+                        ? "-"
+                        : a.getResponsaveis().stream()
+                            .map(Responsavel::getNome)
+                            .collect(java.util.stream.Collectors.joining(", "));
+
+                // Observações médicas (ajuste o getter se seu nome for diferente)
+                String obs = null;
+                try {
+                    // Tenta getObservacoesMedicas()
+                    obs = (String) a.getClass().getMethod("getObservacoesMedicas").invoke(a);
+                } catch (Exception ignore) {
+                    try {
+                        // fallback: getObsMedicas()
+                        obs = (String) a.getClass().getMethod("getObsMedicas").invoke(a);
+                    } catch (Exception ignore2) { /* deixa null */ }
+                }
+                if (obs == null || obs.isBlank()) obs = "-";
+
+                model.addRow(new Object[]{
+                    a.getId(),
+                    a.getNome(),
+                    a.getDataNascimento(),   // LocalDate será mostrado como yyyy-MM-dd
+                    turmasDoAluno,
+                    responsaveis,
+                    obs
+                });
+            }
         } catch (Exception e) {
-            sb.append("\nErro ao listar alunos: ").append(e.getMessage());
+            JOptionPane.showMessageDialog(
+                this, "Erro ao listar alunos: " + e.getMessage(),
+                "Erro", JOptionPane.ERROR_MESSAGE
+            );
             e.printStackTrace();
         }
-        displayArea.setText(sb.toString());
-        displayArea.setCaretPosition(0);
 
-        JDialog dialogLista = new JDialog(this, "Lista de Alunos", true);
-        dialogLista.setContentPane(new JScrollPane(displayArea));
-        dialogLista.setSize(500, 400);
-        dialogLista.setLocationRelativeTo(this);
-        dialogLista.setVisible(true);
+        JTable table = new JTable(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        // Larguras agradáveis
+        table.getColumnModel().getColumn(0).setPreferredWidth(40);   // ID
+        table.getColumnModel().getColumn(1).setPreferredWidth(180);  // Nome
+        table.getColumnModel().getColumn(2).setPreferredWidth(100);  // Nascimento
+        table.getColumnModel().getColumn(3).setPreferredWidth(180);  // Turmas
+        table.getColumnModel().getColumn(4).setPreferredWidth(180);  // Responsáveis
+        table.getColumnModel().getColumn(5).setPreferredWidth(200);  // Obs. Médicas
+
+        JDialog dialog = new JDialog(this, "Lista de Alunos", true);
+        dialog.setContentPane(new JScrollPane(table));
+        dialog.setSize(900, 420);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
     }
+    
+
+    private void listarTreinadores() {
+        DefaultTableModel model = new DefaultTableModel(
+            new Object[]{"ID", "Nome", "E-mail/Login"}, 0
+        ) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
+
+        try {
+            List<Usuario> usuarios = usuarioRepository.listarTodos(); // busca todos os usuários
+
+            for (Usuario u : usuarios) {
+                if (u instanceof Treinador) {
+                    model.addRow(new Object[]{
+                        u.getId(),
+                        u.getNome(),
+                        u.getLogin() // ou u.getEmail(), conforme seu modelo
+                    });
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao listar treinadores: " + e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+
+        JTable table = new JTable(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.getColumnModel().getColumn(0).setPreferredWidth(40);
+        table.getColumnModel().getColumn(1).setPreferredWidth(200);
+        table.getColumnModel().getColumn(2).setPreferredWidth(250);
+
+        JDialog dialog = new JDialog(this, "Lista de Treinadores", true);
+        dialog.setContentPane(new JScrollPane(table));
+        dialog.setSize(550, 400);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+
+
+    private void listarResponsaveis() {
+        DefaultTableModel model = new DefaultTableModel(
+            new Object[]{"ID", "Nome", "E-mail/Login", "Alunos Vinculados"}, 0
+        ) {
+            @Override public boolean isCellEditable(int r, int c) { return false; }
+        };
+
+        try {
+            List<Responsavel> responsaveis = responsavelRepository.listarTodos();
+
+            if (responsaveis.isEmpty()) {
+                model.addRow(new Object[]{"-", "Nenhum responsável cadastrado", "-", "-"});
+            } else {
+                for (Responsavel r : responsaveis) {
+                    String alunosVinculados = "-";
+
+                    if (r.getAlunos() != null && !r.getAlunos().isEmpty()) {
+                        alunosVinculados = r.getAlunos().stream()
+                                .map(Aluno::getNome)
+                                .collect(Collectors.joining(", "));
+                    }
+
+                    model.addRow(new Object[]{
+                        r.getId(),
+                        r.getNome(),
+                        r.getLogin(), // ou r.getEmail(), dependendo do seu modelo
+                        alunosVinculados
+                    });
+                }
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao listar responsáveis: " + e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+
+        JTable table = new JTable(model);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.getColumnModel().getColumn(0).setPreferredWidth(40);
+        table.getColumnModel().getColumn(1).setPreferredWidth(200);
+        table.getColumnModel().getColumn(2).setPreferredWidth(200);
+        table.getColumnModel().getColumn(3).setPreferredWidth(250);
+
+        JDialog dialog = new JDialog(this, "Lista de Responsáveis", true);
+        dialog.setContentPane(new JScrollPane(table));
+        dialog.setSize(750, 400);
+        dialog.setLocationRelativeTo(this);
+        dialog.setVisible(true);
+    }
+
+
 
     private void abrirPainelChamada() {
         try {

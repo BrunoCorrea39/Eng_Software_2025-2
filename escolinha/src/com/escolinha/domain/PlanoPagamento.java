@@ -29,7 +29,7 @@ public class PlanoPagamento {
     // --- toString, equals, hashCode ---
     @Override
     public String toString() {
-        return "PlanoPagamento [id=" + id + ", nome=" + nome + ", valor=" + valor + "]";
+        return nome + " - R$" + valor; // Mostra o nome e o valor
     }
 
     @Override

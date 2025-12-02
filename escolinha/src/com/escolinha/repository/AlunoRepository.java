@@ -1,8 +1,9 @@
 package com.escolinha.repository;
 
-import com.escolinha.domain.Aluno; // Importe a classe do domain
+import com.escolinha.domain.Aluno;
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional; // Usar Optional é uma boa prática para buscas que podem não retornar nada
+import java.util.Optional;
 
 public interface AlunoRepository {
 
@@ -31,8 +32,11 @@ public interface AlunoRepository {
      * @param id O ID do aluno a ser deletado.
      * @return true se o aluno foi deletado, false caso contrário.
      */
-    boolean deletarPorId(int id); // Opcional, mas útil
+    boolean deletarPorId(int id);
 
-    // Você pode adicionar outros métodos de busca conforme necessário
-    // Ex: List<Aluno> buscarPorNome(String nome);
+    /**
+     * Verifica se já existe um aluno cadastrado com o mesmo nome e data de nascimento.
+     * Usado para evitar cadastros duplicados.
+     */
+    boolean existeAlunoPorNomeEData(String nome, LocalDate dataNasc);
 }
