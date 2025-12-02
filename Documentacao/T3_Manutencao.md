@@ -216,25 +216,16 @@ Esse fluxo demonstra a integração entre cadastro, planos, faturas, pagamentos,
 
 Além dos bugs corrigidos e da nova funcionalidade, foram realizadas refatorações para melhorar a qualidade do código:
 
-Validações centralizadas em AlunoService e FinanceiroService.
-
-Mensagens de erro mais claras, facilitando depuração.
-
-Injeção de dependências via construtor, facilitando testes com JUnit/Mockito.
-
-Repositório em memória aprimorado, com o método existeAlunoPorNomeEData e utilitário para limpeza em testes.
-
-Organização da classe FinanceiroService por HU, separando claramente:
-
-HU-01: status financeiro
-
-HU-02: planos
-
-HU-09: pagamento
-
-Nova funcionalidade (cálculo do total pago)
-
-Observer de pagamentos
+- **Validações centralizadas** em `AlunoService` e `FinanceiroService`.
+- **Mensagens de erro mais claras**, facilitando depuração.
+- **Injeção de dependências via construtor**, facilitando testes com JUnit/Mockito.
+- **Repositório em memória aprimorado**, com o método `existeAlunoPorNomeEData` e utilitário para limpeza em testes.
+- **Organização da classe `FinanceiroService` por HU**, separando claramente:
+  - HU-01: status financeiro  
+  - HU-02: planos  
+  - HU-09: pagamento  
+  - Nova funcionalidade (cálculo do total pago)  
+  - Observer de pagamentos  
 
 Com essas alterações, o sistema ficou mais consistente, fácil de testar e preparado para evoluções futuras.
 
