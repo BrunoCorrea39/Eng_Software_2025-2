@@ -170,6 +170,125 @@ public BigDecimal calcularTotalPagoAluno(int alunoId) {
             .reduce(BigDecimal.ZERO, BigDecimal::add);
 }
 ```
+
+
+### ⭐ TDD 2 — Listar Faturas Vencidas do Aluno
+
+**Objetivo:**  
+Criar uma funcionalidade para listar somente as **faturas vencidas** de um aluno, ignorando faturas já pagas ou ainda a vencer.
+
+Essa funcionalidade também foi implementada seguindo o ciclo **TDD**:
+
+- **1. Teste JUnit criado primeiro**
+  - O teste preparou 3 faturas:
+    - uma **pendente e vencida** (deveria aparecer na lista)
+    - uma **pendente com vencimento futuro** (não deveria aparecer)
+    - uma **paga e vencida** (não deveria aparecer)
+  - A asserção esperava **apenas 1 fatura** na lista de retorno.
+
+- **2. Teste executado → falha**
+  - O método `listarFaturasVencidas(...)` ainda não existia no `FinanceiroService`.
+
+- **3. Implementação mínima foi criada** para fazer o teste passar:
+
+```java
+public List<Fatura> listarFaturasVencidas(int alunoId) {
+    LocalDate hoje = LocalDate.now();
+
+    return faturaRepository.buscarPorAlunoId(alunoId).stream()
+            .filter(f -> f.getStatus() != StatusFatura.PAGA)            // ignora faturas já pagas
+            .filter(f -> f.getDataVencimento().isBefore(hoje))         // mantém apenas as vencidas
+            .collect(Collectors.toList());
+}
+```
+4. Testes passaram e o código foi mantido limpo
+
+A partir dessa implementação, o painel FaturasVencidasPanel na interface Swing passou a consumir o método e exibir, para um aluno selecionado, todas as faturas vencidas.
+
+### ⭐ TDD 3 — Gerar Faturas Mensais para Alunos com Plano Ativo
+
+**Objetivo:**  
+Gerar automaticamente **faturas mensais** para todos os alunos que possuem um plano de pagamento ativo, evitando a **duplicação de faturas** no mesmo mês.
+
+Mais uma vez, o ciclo **TDD (Test-Driven Development)** foi seguido:
+
+- **1. Teste JUnit criado primeiro**
+
+  O teste simulou o seguinte cenário:
+
+  - Um **aluno com plano vinculado**
+  - Uma **primeira fatura já existente**
+  - A chamada ao método `gerarFaturasMensais()`
+
+  A expectativa do teste era que o repositório de faturas (`FaturaRepository`) recebesse **mais uma chamada ao método `salvar(...)`**, indicando a criação de **uma nova fatura mensal** para aquele aluno.
+
+- **2. Teste executado → falha**
+
+  Na primeira execução, o método `gerarFaturasMensais()` ainda não continha lógica real de criação de faturas (apenas um `println`), portanto:
+  
+  - Nenhuma nova fatura era salva
+  - A asserção do teste falhava, confirmando a necessidade de implementação da lógica de negócio.
+
+
+3. Implementação foi criada para atender o teste e a regra de negócio:
+```java
+ public void gerarFaturasMensais() {
+
+    LocalDate hoje = LocalDate.now();
+
+    for (Aluno aluno : alunoRepository.listarAlunos()) {
+
+        // Recupera o plano vinculado ao aluno (se houver)
+        Integer planoId = alunoParaPlano.get(aluno.getId());
+        if (planoId == null) {
+            continue; // aluno sem plano ativo
+        }
+
+        PlanoPagamento plano = planoPagamentoRepository.buscarPorId(planoId).orElse(null);
+        if (plano == null) {
+            continue;
+        }
+
+        // Faturas já existentes do aluno
+        List<Fatura> faturas = faturaRepository.buscarPorAlunoId(aluno.getId());
+
+        // Verifica se já existe fatura deste mês/ano
+        boolean jaTemFaturaDoMes = faturas.stream()
+                .anyMatch(f ->
+                        f.getDataVencimento().getMonth() == hoje.getMonth() &&
+                        f.getDataVencimento().getYear()  == hoje.getYear()
+                );
+
+        if (jaTemFaturaDoMes) {
+            continue; // evita duplicar a fatura do mesmo mês
+        }
+
+        // Define vencimento: dia 10 (no mês atual ou próximo, dependendo da data de hoje)
+        LocalDate vencimento = (hoje.getDayOfMonth() <= 10)
+                ? hoje.withDayOfMonth(10)
+                : hoje.plusMonths(1).withDayOfMonth(10);
+
+        // Cria nova fatura mensal
+        Fatura nova = new Fatura(0, aluno.getId(), plano.getValor(), vencimento);
+        nova.setStatus(StatusFatura.PENDENTE);
+        nova.setPlanoPagamentoId(plano.getId());
+
+        faturaRepository.salvar(nova);
+
+        // Opcional: notificar observers para atualizar outras telas
+        notificarObservadores(nova);
+    }
+}
+```
+
+- **4. Testes passaram e o método passou a ser utilizado na interface**
+  - Um botão **"Gerar Faturas Mensais"** foi adicionado ao `PlanoGerenciamentoPanel`,
+    chamando esse método e exibindo mensagem de sucesso/erro ao usuário.
+  - Com isso, o TDD não ficou apenas no código de serviço, mas foi integrado de forma
+    visível ao sistema.
+
+
+
 ## 3️⃣ Integração das Funcionalidades (10%)
 
 Após as correções e melhorias implementadas no Trabalho 3, o fluxo completo do sistema passou a operar de forma integrada e consistente. As principais etapas do processo são:
