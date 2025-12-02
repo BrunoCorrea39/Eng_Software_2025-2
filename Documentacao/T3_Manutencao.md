@@ -161,27 +161,22 @@ public BigDecimal calcularTotalPagoAluno(int alunoId) {
 ```
 ## 3️⃣ Integração das Funcionalidades (10%)
 
-O fluxo integrado do sistema após as manutenções ficou assim:
+Após as correções e melhorias implementadas no Trabalho 3, o fluxo completo do sistema passou a operar de forma integrada e consistente. As principais etapas do processo são:
 
-Cadastro de aluno
+- **Cadastro do aluno**
+  - Realizado via `AlunoService.cadastrarAluno()`
+  - Inclui validações de entrada
+  - Impede cadastros duplicados (Bug 1 corrigido)
 
-AlunoService.cadastrarAluno()
+- **Criação de um plano financeiro válido**
+  - Executado por `FinanceiroService.criarPlano()`
+  - Valida nome, valor e duração (Bug 2 corrigido)
 
-Usa validações de dados e impede cadastros duplicados.
-
-Criação de plano financeiro válido
-
-FinanceiroService.criarPlano()
-
-Garante nome, valor e duração válidos.
-
-Atribuição de plano ao aluno
-
-FinanceiroService.atribuirPlanoAoAluno()
-
-Valida aluno e plano, atualiza o vínculo em memória e gera a primeira fatura automaticamente.
-
-Geração automática da primeira fatura
+- **Atribuição do plano ao aluno**
+  - Feita através de `FinanceiroService.atribuirPlanoAoAluno()`
+  - Valida aluno e plano (Bug 3 corrigido)
+  - Gera automaticamente a primeira fatura do plano:
+    
 ```java
 private void gerarPrimeiraFaturaDoPlano(int alunoId, PlanoPagamento plano) {
 
