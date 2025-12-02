@@ -44,18 +44,21 @@ if (alunoRepository.existeAlunoPorNomeEData(nome.trim(), dataNasc)) {
 
 ## 🔧 Bug 2 — Criação de planos inválidos
 
-Problema:
+**Problema:**  
 Era possível criar planos financeiros com:
 
-nome vazio
+- nome vazio  
+- valor nulo  
+- valor menor ou igual a zero  
+- duração igual ou inferior a zero  
 
-valor nulo
+Esses cenários geravam planos inconsistentes e quebravam regras básicas do domínio financeiro.
 
-valor menor ou igual a zero
+---
 
-duração igual ou inferior a zero
+**Correção aplicada no `FinanceiroService.criarPlano(...)`:**
 
-Correção aplicada no FinanceiroService.criarPlano(...):
+
 ```java
 public PlanoPagamento criarPlano(String nome, BigDecimal valor, int duracaoMeses) {
 
