@@ -107,11 +107,19 @@ public class TurmaService {
         if (turmaOpt.isPresent() && alunoOpt.isPresent()) {
             Turma turma = turmaOpt.get();
             Aluno aluno = alunoOpt.get();
+            
+            if (turma.getAlunos().size() >= 20) {
+                System.out.println("Turma cheia!");
+                return false;
+            }
+            
             turma.adicionarAluno(aluno);
             turmaRepository.salvar(turma);
             return true;
         }
         return false;
+        
+        
     }
 
     // === NOVOS MÉTODOS ===

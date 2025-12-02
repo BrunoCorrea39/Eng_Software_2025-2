@@ -12,8 +12,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.concurrent.ConcurrentHashMap; // <-- adicionado
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class FinanceiroService {
@@ -22,8 +22,11 @@ public class FinanceiroService {
     private final PlanoPagamentoRepository planoPagamentoRepository;
     private final AlunoRepository alunoRepository;
 
-    // Mantém o vínculo em memória durante a execução (alunoId -> planoId)
+    // vínculo em memória: alunoId -> planoId (lifetime do processo)
     private final Map<Integer, Integer> alunoParaPlano = new ConcurrentHashMap<>();
+
+    // Observers (thread-safe)
+    private final List<PagamentoObserver> observers = new CopyOnWriteArrayList<>();
 
     public FinanceiroService(FaturaRepository faturaRepository,
                              PlanoPagamentoRepository planoPagamentoRepository,
@@ -35,12 +38,8 @@ public class FinanceiroService {
 
     // ================= HU-01: Status Financeiro =================
     public Map<Aluno, StatusFatura> getStatusFinanceiroAlunos() {
-        List<Aluno> todosAlunos = alunoRepository.listarTodos();
-        return todosAlunos.stream()
-                .collect(Collectors.toMap(
-                        a -> a,
-                        a -> verificarStatusAluno(a.getId())
-                ));
+        return alunoRepository.listarTodos().stream()
+                .collect(Collectors.toMap(a -> a, a -> verificarStatusAluno(a.getId())));
     }
 
     private StatusFatura verificarStatusAluno(int alunoId) {
@@ -48,7 +47,8 @@ public class FinanceiroService {
         List<Fatura> faturas = faturaRepository.buscarPorAlunoId(alunoId);
 
         boolean temVencida = faturas.stream()
-                .anyMatch(f -> f.getStatus() != StatusFatura.PAGA && f.getDataVencimento().isBefore(hoje));
+                .anyMatch(f -> f.getStatus() != StatusFatura.PAGA
+                        && f.getDataVencimento().isBefore(hoje));
         if (temVencida) return StatusFatura.VENCIDA;
 
         boolean temPendente = faturas.stream()
@@ -58,28 +58,24 @@ public class FinanceiroService {
         return StatusFatura.PAGA;
     }
 
-    /**
-     * Gera uma nova fatura para um aluno com base em um plano de pagamento.
-     * @param alunoId O ID do aluno.
-     * @param plano O PlanoPagamento a ser usado como base.
-     * @param dataVencimento A data de vencimento da nova fatura.
-     * @return A fatura criada e salva no repositório.
-     */
-    public Fatura gerarFaturaParaAluno(int alunoId, PlanoPagamento plano, LocalDate dataVencimento) {
-        if (plano == null) {
-            throw new IllegalArgumentException("Plano de pagamento não pode ser nulo.");
-        }
-        // Cria uma nova fatura (ID 0) com o valor do plano
-        Fatura novaFatura = new Fatura(0, alunoId, plano.getValor(), dataVencimento);
-        novaFatura.setPlanoPagamentoId(plano.getId()); // Vincula o ID do plano (opcional, mas bom ter)
-
-        // Salva a fatura no repositório
-        return faturaRepository.salvar(novaFatura);
-    }
-    
     // ================= HU-02: Gerenciar Planos =================
+
+    /**
+     * Cria um novo plano de pagamento com validações de negócio.
+     * (Usar na parte de correção de bugs/validação no README)
+     */
     public PlanoPagamento criarPlano(String nome, BigDecimal valor, int duracaoMeses) {
-        PlanoPagamento novoPlano = new PlanoPagamento(0, nome, valor, duracaoMeses);
+        if (nome == null || nome.trim().isEmpty()) {
+            throw new IllegalArgumentException("Nome do plano não pode ser vazio.");
+        }
+        if (valor == null || valor.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Valor do plano deve ser maior que zero.");
+        }
+        if (duracaoMeses <= 0) {
+            throw new IllegalArgumentException("Duração do plano deve ser positiva.");
+        }
+
+        PlanoPagamento novoPlano = new PlanoPagamento(0, nome.trim(), valor, duracaoMeses);
         return planoPagamentoRepository.salvar(novoPlano);
     }
 
@@ -87,19 +83,32 @@ public class FinanceiroService {
         return planoPagamentoRepository.listarTodos();
     }
 
-    // Vincular um plano a um aluno (chamado pelo painel Gerenciar Planos)
     public synchronized void atribuirPlanoAoAluno(int alunoId, int planoId) {
-        var aluno = alunoRepository.buscarPorId(alunoId)
+        // valida existência do aluno
+        alunoRepository.buscarPorId(alunoId)
                 .orElseThrow(() -> new IllegalArgumentException("Aluno não encontrado (ID " + alunoId + ")."));
 
-        var plano = planoPagamentoRepository.buscarPorId(planoId)
+        // valida existência do plano
+        PlanoPagamento plano = planoPagamentoRepository.buscarPorId(planoId)
                 .orElseThrow(() -> new IllegalArgumentException("Plano não encontrado (ID " + planoId + ")."));
 
-        alunoParaPlano.put(aluno.getId(), plano.getId());          // salva vínculo em memória
-        gerarPrimeiraFaturaDoPlano(aluno.getId(), plano);           // opcional: já cria 1ª fatura
+        // vincula e gera primeira fatura
+        alunoParaPlano.put(alunoId, plano.getId());
+        gerarPrimeiraFaturaDoPlano(alunoId, plano);
     }
 
-    // Permite consultar o plano do aluno em outras telas (opcional)
+    /**
+     * TDD 2 – Lista apenas as faturas vencidas de um aluno.
+     */
+    public List<Fatura> listarFaturasVencidas(int alunoId) {
+        LocalDate hoje = LocalDate.now();
+
+        return faturaRepository.buscarPorAlunoId(alunoId).stream()
+                .filter(f -> f.getStatus() != StatusFatura.PAGA)
+                .filter(f -> f.getDataVencimento().isBefore(hoje))
+                .collect(Collectors.toList());
+    }
+
     public PlanoPagamento obterPlanoDoAluno(int alunoId) {
         Integer planoId = alunoParaPlano.get(alunoId);
         if (planoId == null) return null;
@@ -108,35 +117,35 @@ public class FinanceiroService {
 
     // Gera uma fatura simples (1ª parcela) com vencimento no dia 10
     private void gerarPrimeiraFaturaDoPlano(int alunoId, PlanoPagamento plano) {
-        LocalDate hoje = LocalDate.now();
-        LocalDate vencimento = (hoje.getDayOfMonth() <= 10)
-                ? hoje.withDayOfMonth(10)
-                : hoje.plusMonths(1).withDayOfMonth(10);
-
-        // Usa o construtor disponível (sem status nem descrição)
+        LocalDate vencimento = calcularVencimentoPrimeiraFatura();
         Fatura f = new Fatura(0, alunoId, plano.getValor(), vencimento);
-
-        // Define o status explicitamente (embora o construtor já defina PENDENTE)
         f.setStatus(StatusFatura.PENDENTE);
-
-        // (Opcional) define o plano se quiser usar o campo planoPagamentoId
         f.setPlanoPagamentoId(plano.getId());
 
         faturaRepository.salvar(f);
     }
 
+    private LocalDate calcularVencimentoPrimeiraFatura() {
+        LocalDate hoje = LocalDate.now();
+        return (hoje.getDayOfMonth() <= 10)
+                ? hoje.withDayOfMonth(10)
+                : hoje.plusMonths(1).withDayOfMonth(10);
+    }
 
     // ================= HU-09: Pagamento =================
     public boolean registrarPagamentoFatura(int faturaId, LocalDate dataPagamento) {
-        Optional<Fatura> faturaOpt = faturaRepository.buscarPorId(faturaId);
-        if (faturaOpt.isEmpty())
-            throw new IllegalArgumentException("Fatura com ID " + faturaId + " não encontrada.");
+        Fatura fatura = faturaRepository.buscarPorId(faturaId)
+                .orElseThrow(() -> new IllegalArgumentException("Fatura com ID " + faturaId + " não encontrada."));
 
-        Fatura fatura = faturaOpt.get();
-        if (fatura.getStatus() == StatusFatura.PENDENTE || fatura.getStatus() == StatusFatura.VENCIDA) {
+        if (fatura.getStatus() == StatusFatura.PENDENTE
+                || fatura.getStatus() == StatusFatura.VENCIDA) {
+
             fatura.setStatus(StatusFatura.PAGA);
             fatura.setDataPagamento(dataPagamento);
             faturaRepository.salvar(fatura);
+
+            // 🔔 avisa os observers (PagamentoPanel, FinanceiroStatusPanel, etc.)
+            notificarObservadores(fatura);
             return true;
         }
         return false; // já estava paga
@@ -146,8 +155,67 @@ public class FinanceiroService {
         return faturaRepository.buscarPorAlunoId(alunoId);
     }
 
-    // Geração recorrente (pode evoluir depois)
+    /**
+     * TDD 3 – Geração mensal de faturas para todos os alunos com plano vinculado.
+     */
     public void gerarFaturasMensais() {
-        System.out.println("[Service] Geração mensal de faturas: implementar conforme regra do plano.");
+        LocalDate hoje = LocalDate.now();
+
+        alunoParaPlano.forEach((alunoId, planoId) -> {
+            PlanoPagamento plano = planoPagamentoRepository.buscarPorId(planoId)
+                    .orElse(null);
+
+            if (plano == null) {
+                return; // plano foi removido ou está inconsistente
+            }
+
+            LocalDate vencimento = proximoVencimento(hoje);
+
+            Fatura nova = new Fatura(0, alunoId, plano.getValor(), vencimento);
+            nova.setStatus(StatusFatura.PENDENTE);
+            nova.setPlanoPagamentoId(planoId);
+
+            faturaRepository.salvar(nova);
+        });
+    }
+
+    private LocalDate proximoVencimento(LocalDate base) {
+        return base.plusMonths(1).withDayOfMonth(10);
+    }
+
+    // ================= Nova funcionalidade para TDD =================
+
+    /**
+     * TDD 1 – Calcula o total já pago por um aluno considerando apenas faturas com status PAGA.
+     */
+    public BigDecimal calcularTotalPagoAluno(int alunoId) {
+        return faturaRepository.buscarPorAlunoId(alunoId).stream()
+                .filter(f -> f.getStatus() == StatusFatura.PAGA)
+                .map(Fatura::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    // ================= Observer =================
+    public void addObserver(PagamentoObserver observer) {
+        if (observer != null) observers.add(observer);
+    }
+
+    public void removeObserver(PagamentoObserver observer) {
+        observers.remove(observer);
+    }
+
+    private void notificarObservadores(Fatura fatura) {
+        for (PagamentoObserver obs : observers) {
+            try {
+                obs.onPagamentoRegistrado(fatura);
+            } catch (Exception ignored) { }
+        }
+    }
+    
+    public BigDecimal calcularValorPagamento(BigDecimal valor, LocalDate vencimento, LocalDate dataPagamento) {
+        if (dataPagamento.isBefore(vencimento)) {
+            return valor.multiply(new BigDecimal("0.95")); // 5% desconto
+        }
+        return valor;
     }
 }

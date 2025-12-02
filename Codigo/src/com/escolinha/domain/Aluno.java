@@ -67,7 +67,7 @@ public class Aluno {
     // toString() (Gerado pelo Eclipse)
     @Override
     public String toString() {
-        return "Aluno [id=" + id + ", nome=" + nome + ", dataNascimento=" + dataNascimento + "]";
+        return nome; // Mostra apenas o nome
     }
     
 

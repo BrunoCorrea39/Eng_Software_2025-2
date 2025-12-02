@@ -13,7 +13,7 @@ public class UsuarioRepositoryMemoria implements UsuarioRepository {
     // ---------- Singleton ----------
     private static final UsuarioRepositoryMemoria INSTANCE = new UsuarioRepositoryMemoria();
     public static UsuarioRepositoryMemoria getInstance() { return INSTANCE; }
-    private UsuarioRepositoryMemoria() {} // impede new
+    public UsuarioRepositoryMemoria() {} // impede new
 
     // ---------- Armazenamento compartilhado (permanência em memória) ----------
     private static final Map<Integer, Usuario> DB = new ConcurrentHashMap<>();

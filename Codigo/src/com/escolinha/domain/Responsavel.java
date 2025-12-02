@@ -2,13 +2,16 @@ package com.escolinha.domain;
 
 import java.util.Objects;
 
+import java.util.List;
+import java.util.ArrayList;
+
 // Herda de Usuario
 public class Responsavel extends Usuario {
 
     // Atributos específicos do Responsavel (id e nome são herdados)
     private String telefone;
     private String email; // Mantendo o email caso seja diferente do login
-
+    private List<Aluno> alunos = new ArrayList<>();
     // Construtor chamando o super() primeiro
     public Responsavel(int id, String nome, String login /*ou email*/, String telefone, String email) {
         super(id, nome, login); // Passa id, nome, login para o construtor de Usuario
@@ -50,6 +53,18 @@ public class Responsavel extends Usuario {
     public boolean equals(Object obj) {
         return super.equals(obj); // Delega para Usuario
     }
+    public List<Aluno> getAlunos() {
+        return alunos;
+    }
+
+    public void setAlunos(List<Aluno> alunos) {
+        this.alunos = alunos;
+    }
+
+    public void adicionarAluno(Aluno aluno) {
+        this.alunos.add(aluno);
+    }
+    
 
     /* Ou, se Usuario não tiver equals/hashCode, gere novamente baseado no ID:
     @Override

@@ -1,15 +1,16 @@
 package com.escolinha.service;
 
 import com.escolinha.domain.Aluno;
-import com.escolinha.domain.Responsavel; // Importe se necessário
-import com.escolinha.repository.AlunoRepository; // Importe a INTERFACE
+import com.escolinha.domain.Responsavel;
+import com.escolinha.repository.AlunoRepository;
+
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 public class AlunoService {
-	
-    private final AlunoRepository alunoRepository; // Dependência da INTERFACE
+
+    private final AlunoRepository alunoRepository;
 
     // Injeção de dependência via construtor
     public AlunoService(AlunoRepository alunoRepository) {
@@ -19,20 +20,33 @@ public class AlunoService {
     /**
      * Cadastra um novo aluno (Implementa lógica da HU-03).
      */
-    public Aluno cadastrarAluno(String nome, LocalDate dataNasc, List<Responsavel> responsaveis, String obsMedicas) {
-        // --- Regras de Negócio ---
-        if (nome == null || nome.trim().isEmpty()) {
+    public Aluno cadastrarAluno(String nome,
+                                LocalDate dataNasc,
+                                List<Responsavel> responsaveis,
+                                String obsMedicas) {
+
+    	if (dataNasc == null || dataNasc.isAfter(LocalDate.now())) {
+            throw new IllegalArgumentException("Data de nascimento inválida.");
+        }
+    	
+        // --- Regras de Negócio / Validações ---
+    	if (dataNasc.isAfter(LocalDate.now().minusYears(4))) {
+    	    throw new IllegalArgumentException("Aluno deve ter no mínimo 4 anos.");
+    	}
+    	
+    	if (nome == null || nome.trim().isEmpty()) {
             throw new IllegalArgumentException("Nome do aluno não pode ser vazio.");
         }
-        if (dataNasc == null || dataNasc.isAfter(LocalDate.now())) {
-             throw new IllegalArgumentException("Data de nascimento inválida.");
+
+        // ✅ NOVA REGRA: evitar cadastro duplicado
+        if (alunoRepository.existeAlunoPorNomeEData(nome.trim(), dataNasc)) {
+            throw new IllegalArgumentException("Já existe um aluno cadastrado com este nome e data de nascimento.");
         }
-        // Outras validações podem ser adicionadas (ex: idade mínima?)
 
         // Cria o objeto Aluno (ID 0 para indicar que é novo)
         Aluno novoAluno = new Aluno(0, nome.trim(), dataNasc, responsaveis, obsMedicas);
 
-        // Chama o repositório para salvar
+        // Persiste no repositório
         return alunoRepository.salvar(novoAluno);
     }
 
@@ -54,16 +68,9 @@ public class AlunoService {
      * Deleta um aluno.
      */
     public boolean deletarAluno(int id) {
-        // Regra de negócio: talvez verificar se o aluno tem faturas pendentes antes de deletar?
-        // Por enquanto, apenas deleta.
+        // Aqui poderia ter regra: não deletar se tiver pendência financeira, etc.
         return alunoRepository.deletarPorId(id);
     }
 
-     // --- Métodos para HU-07 (Visualizar Desempenho) ---
-     // Esses métodos podem precisar de outros repositórios (Avaliacao, Frequencia)
-     // Por isso, talvez um AlunoCompletoDTO fosse útil, ou o serviço retorna
-     // o Aluno e a View busca os outros dados em seus respectivos serviços.
-     // Vamos manter simples por agora: a View chama AlunoService.buscarAlunoPorId()
-     // e depois chama AvaliacaoService.buscarPorAlunoId() e FrequenciaService.buscarPorAlunoId().
-
+    // Comentários da HU-07 podem ficar aqui se quiser, mas não afetam a lógica de negócio.
 }

@@ -1,6 +1,8 @@
 package com.escolinha.repository;
 
 import com.escolinha.domain.Aluno;
+
+import java.time.LocalDate;                       // ✅ IMPORT NECESSÁRIO
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -15,6 +17,8 @@ public class AlunoRepositoryMemoria implements AlunoRepository {
     // ---------- Armazenamento compartilhado ----------
     private static final Map<Integer, Aluno> DB = new ConcurrentHashMap<>();
     private static final AtomicInteger SEQ = new AtomicInteger(0);
+
+    // ---------- Métodos da Interface ----------
 
     @Override
     public synchronized Aluno salvar(Aluno aluno) {
@@ -40,11 +44,24 @@ public class AlunoRepositoryMemoria implements AlunoRepository {
     }
 
     @Override
-    public boolean deletarPorId(int id) {   // <-- NOME EXATO da interface
+    public boolean deletarPorId(int id) {
         return DB.remove(id) != null;
     }
 
-    // Utilitário para testes e reset (opcional)
+    @Override                                           // ✅ OVERRIDE ADICIONADO
+    public boolean existeAlunoPorNomeEData(String nome, LocalDate dataNasc) {
+        if (nome == null || dataNasc == null)
+            return false;
+
+        return DB.values().stream()
+                .anyMatch(a ->
+                        a.getNome().equalsIgnoreCase(nome.trim())
+                        && a.getDataNascimento().equals(dataNasc)   // <-- CORRIGIDO AQUI
+                );
+    }
+    // ---------- Métodos auxiliares (opcional) ----------
+
+    /** Reseta o banco em memória (útil para testes). */
     public void limparTudo() {
         DB.clear();
         SEQ.set(0);
