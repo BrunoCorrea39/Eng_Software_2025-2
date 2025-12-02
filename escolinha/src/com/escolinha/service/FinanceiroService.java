@@ -159,25 +159,54 @@ public class FinanceiroService {
      * TDD 3 – Geração mensal de faturas para todos os alunos com plano vinculado.
      */
     public void gerarFaturasMensais() {
+
         LocalDate hoje = LocalDate.now();
 
-        alunoParaPlano.forEach((alunoId, planoId) -> {
-            PlanoPagamento plano = planoPagamentoRepository.buscarPorId(planoId)
-                    .orElse(null);
+        for (Aluno aluno : alunoRepository.listarTodos()) {
 
-            if (plano == null) {
-                return; // plano foi removido ou está inconsistente
+            // pega o plano vinculado
+            Integer planoId = alunoParaPlano.get(aluno.getId());
+            if (planoId == null) continue;
+
+            PlanoPagamento plano = planoPagamentoRepository.buscarPorId(planoId).orElse(null);
+            if (plano == null) continue;
+
+            // todas as faturas do aluno
+            List<Fatura> faturas = faturaRepository.buscarPorAlunoId(aluno.getId());
+
+            // existe fatura deste mês?
+            boolean jaTemFaturaDoMes = faturas.stream()
+                    .anyMatch(f -> 
+                        f.getDataVencimento().getMonth() == hoje.getMonth() &&
+                        f.getDataVencimento().getYear() == hoje.getYear()
+                    );
+
+            if (jaTemFaturaDoMes) {
+                continue; // não duplica
             }
 
-            LocalDate vencimento = proximoVencimento(hoje);
+            // calcula vencimento (dia 10 do mês atual, ou mês seguinte se já passou)
+            LocalDate vencimento = hoje.getDayOfMonth() <= 10
+                    ? hoje.withDayOfMonth(10)
+                    : hoje.plusMonths(1).withDayOfMonth(10);
 
-            Fatura nova = new Fatura(0, alunoId, plano.getValor(), vencimento);
+            // cria fatura nova
+            Fatura nova = new Fatura(
+                    0,
+                    aluno.getId(),
+                    plano.getValor(),
+                    vencimento
+            );
             nova.setStatus(StatusFatura.PENDENTE);
-            nova.setPlanoPagamentoId(planoId);
+            nova.setPlanoPagamentoId(plano.getId());
 
             faturaRepository.salvar(nova);
-        });
+
+            // notifica observers
+            notificarObservadores(nova);
+        }
     }
+    
 
     private LocalDate proximoVencimento(LocalDate base) {
         return base.plusMonths(1).withDayOfMonth(10);
@@ -194,6 +223,8 @@ public class FinanceiroService {
                 .map(Fatura::getValor)
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
+    
+    
 
     // ================= Observer =================
     public void addObserver(PagamentoObserver observer) {

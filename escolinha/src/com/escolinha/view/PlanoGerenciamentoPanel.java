@@ -48,22 +48,31 @@ public class PlanoGerenciamentoPanel extends JPanel {
         gbc.anchor = GridBagConstraints.WEST;
 
         // Nome do plano
-        gbc.gridx=0; gbc.gridy=0; painelCriacao.add(new JLabel("Nome do Plano:"), gbc);
-        gbc.gridx=1; gbc.gridy=0; gbc.fill=GridBagConstraints.HORIZONTAL; gbc.weightx=1.0;
-        txtNomePlano = new JTextField(15); painelCriacao.add(txtNomePlano, gbc);
-        gbc.fill=GridBagConstraints.NONE; gbc.weightx=0.0;
+        gbc.gridx = 0; gbc.gridy = 0;
+        painelCriacao.add(new JLabel("Nome do Plano:"), gbc);
+        gbc.gridx = 1; gbc.gridy = 0; gbc.fill = GridBagConstraints.HORIZONTAL; gbc.weightx = 1.0;
+        txtNomePlano = new JTextField(15);
+        painelCriacao.add(txtNomePlano, gbc);
+        gbc.fill = GridBagConstraints.NONE; gbc.weightx = 0.0;
 
         // Valor
-        gbc.gridx=0; gbc.gridy=1; painelCriacao.add(new JLabel("Valor (R$):"), gbc);
-        gbc.gridx=1; gbc.gridy=1; txtValorPlano = new JTextField(8); painelCriacao.add(txtValorPlano, gbc);
+        gbc.gridx = 0; gbc.gridy = 1;
+        painelCriacao.add(new JLabel("Valor (R$):"), gbc);
+        gbc.gridx = 1; gbc.gridy = 1;
+        txtValorPlano = new JTextField(8);
+        painelCriacao.add(txtValorPlano, gbc);
 
         // Duração
-        gbc.gridx=0; gbc.gridy=2; painelCriacao.add(new JLabel("Duração (meses):"), gbc);
-        gbc.gridx=1; gbc.gridy=2; txtDuracaoMeses = new JTextField(3); painelCriacao.add(txtDuracaoMeses, gbc);
+        gbc.gridx = 0; gbc.gridy = 2;
+        painelCriacao.add(new JLabel("Duração (meses):"), gbc);
+        gbc.gridx = 1; gbc.gridy = 2;
+        txtDuracaoMeses = new JTextField(3);
+        painelCriacao.add(txtDuracaoMeses, gbc);
 
         // Botão criar
-        gbc.gridx=1; gbc.gridy=3; gbc.anchor=GridBagConstraints.EAST;
-        btnCriarPlano = new JButton("Criar Plano"); painelCriacao.add(btnCriarPlano, gbc);
+        gbc.gridx = 1; gbc.gridy = 3; gbc.anchor = GridBagConstraints.EAST;
+        btnCriarPlano = new JButton("Criar Plano");
+        painelCriacao.add(btnCriarPlano, gbc);
 
         add(painelCriacao, BorderLayout.NORTH);
 
@@ -86,19 +95,23 @@ public class PlanoGerenciamentoPanel extends JPanel {
         g2.fill = GridBagConstraints.HORIZONTAL;
 
         // Aluno
-        g2.gridx=0; g2.gridy=0; painelAtribuicao.add(new JLabel("Aluno:"), g2);
-        g2.gridx=1; g2.gridy=0; g2.weightx=1.0;
-        cbAluno = new JComboBox<>(); painelAtribuicao.add(cbAluno, g2);
-        g2.weightx=0.0;
+        g2.gridx = 0; g2.gridy = 0;
+        painelAtribuicao.add(new JLabel("Aluno:"), g2);
+        g2.gridx = 1; g2.gridy = 0; g2.weightx = 1.0;
+        cbAluno = new JComboBox<>();
+        painelAtribuicao.add(cbAluno, g2);
+        g2.weightx = 0.0;
 
         // Plano existente
-        g2.gridx=0; g2.gridy=1; painelAtribuicao.add(new JLabel("Plano:"), g2);
-        g2.gridx=1; g2.gridy=1; g2.weightx=1.0;
-        cbPlanoExistente = new JComboBox<>(); painelAtribuicao.add(cbPlanoExistente, g2);
-        g2.weightx=0.0;
+        g2.gridx = 0; g2.gridy = 1;
+        painelAtribuicao.add(new JLabel("Plano:"), g2);
+        g2.gridx = 1; g2.gridy = 1; g2.weightx = 1.0;
+        cbPlanoExistente = new JComboBox<>();
+        painelAtribuicao.add(cbPlanoExistente, g2);
+        g2.weightx = 0.0;
 
         // Botão atribuir
-        g2.gridx=1; g2.gridy=2; g2.anchor = GridBagConstraints.EAST;
+        g2.gridx = 1; g2.gridy = 2; g2.anchor = GridBagConstraints.EAST;
         btnAtribuirPlano = new JButton("Atribuir Plano");
         painelAtribuicao.add(btnAtribuirPlano, g2);
 
@@ -115,6 +128,11 @@ public class PlanoGerenciamentoPanel extends JPanel {
         JPanel painelBotoesPlanos = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         btnAtualizarLista = new JButton("Atualizar Lista");
         btnFecharGerPlanos = new JButton("Fechar");
+
+        // 🔵 NOVO BOTÃO TDD 3
+        JButton btnGerarMensal = new JButton("Gerar Faturas Mensais");
+        painelBotoesPlanos.add(btnGerarMensal);
+
         painelBotoesPlanos.add(btnAtualizarLista);
         painelBotoesPlanos.add(btnFecharGerPlanos);
         add(painelBotoesPlanos, BorderLayout.SOUTH);
@@ -127,12 +145,28 @@ public class PlanoGerenciamentoPanel extends JPanel {
         });
         btnFecharGerPlanos.addActionListener(e -> fecharJanela());
         btnAtribuirPlano.addActionListener(e -> atribuirPlano());
-        
+
+        // 🔵 LISTENER DO NOVO BOTÃO
+        btnGerarMensal.addActionListener(e -> {
+            try {
+                financeiroService.gerarFaturasMensais();
+                JOptionPane.showMessageDialog(this,
+                        "Faturas mensais geradas com sucesso!",
+                        "Sucesso",
+                        JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(this,
+                        "Erro ao gerar faturas mensais: " + ex.getMessage(),
+                        "Erro",
+                        JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        });
+
         // Cargas iniciais
         carregarPlanos();
         carregarAlunos();
     }
-    
 
     // ----------------- criação/listagem de planos -----------------
 
@@ -140,15 +174,15 @@ public class PlanoGerenciamentoPanel extends JPanel {
         tableModelPlanos.setRowCount(0);
         try {
             List<PlanoPagamento> planos = financeiroService.listarPlanos();
-            if (planos.isEmpty()){
+            if (planos.isEmpty()) {
                 tableModelPlanos.addRow(new Object[]{"", "Nenhum plano cadastrado.", "", ""});
             } else {
                 for (PlanoPagamento p : planos) {
                     tableModelPlanos.addRow(new Object[]{
-                        p.getId(),
-                        p.getNome(),
-                        p.getValor().toString(),
-                        p.getDuracaoMeses()
+                            p.getId(),
+                            p.getNome(),
+                            p.getValor().toString(),
+                            p.getDuracaoMeses()
                     });
                 }
             }
@@ -239,7 +273,6 @@ public class PlanoGerenciamentoPanel extends JPanel {
         }
 
         try {
-            // método a implementar no FinanceiroService
             financeiroService.atribuirPlanoAoAluno(aluno.getId(), plano.getId());
 
             JOptionPane.showMessageDialog(this,

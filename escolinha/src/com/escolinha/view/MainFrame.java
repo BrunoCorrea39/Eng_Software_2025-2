@@ -9,9 +9,6 @@ import javax.swing.JTable;
 import java.util.List;
 import java.util.stream.Collectors; // importante para o join dos nomes dos alunos
 
-
-
-
 import com.escolinha.domain.*;
 import com.escolinha.repository.*;
 import com.escolinha.service.*;
@@ -19,16 +16,15 @@ import com.escolinha.service.*;
 public class MainFrame extends JFrame {
 
     // --- Repositórios ---
-	private final AlunoRepository alunoRepository = AlunoRepositoryMemoria.getInstance();
-	private final FaturaRepository faturaRepository = FaturaRepositoryMemoria.getInstance();
-	private final PlanoPagamentoRepository planoPagamentoRepository = PlanoPagamentoRepositoryMemoria.getInstance();
-	private final TurmaRepository turmaRepository = TurmaRepositoryMemoria.getInstance();
-	private final FrequenciaRepository frequenciaRepository = FrequenciaRepositoryMemoria.getInstance();
-	private final AvaliacaoRepository avaliacaoRepository = AvaliacaoRepositoryMemoria.getInstance();
-	private final ComunicadoRepository comunicadoRepository = ComunicadoRepositoryMemoria.getInstance();
-	private final ResponsavelRepository responsavelRepository = ResponsavelRepositoryMemoria.getInstance();
-	private final UsuarioRepository usuarioRepository = UsuarioRepositoryMemoria.getInstance();
-
+    private final AlunoRepository alunoRepository = AlunoRepositoryMemoria.getInstance();
+    private final FaturaRepository faturaRepository = FaturaRepositoryMemoria.getInstance();
+    private final PlanoPagamentoRepository planoPagamentoRepository = PlanoPagamentoRepositoryMemoria.getInstance();
+    private final TurmaRepository turmaRepository = TurmaRepositoryMemoria.getInstance();
+    private final FrequenciaRepository frequenciaRepository = FrequenciaRepositoryMemoria.getInstance();
+    private final AvaliacaoRepository avaliacaoRepository = AvaliacaoRepositoryMemoria.getInstance();
+    private final ComunicadoRepository comunicadoRepository = ComunicadoRepositoryMemoria.getInstance();
+    private final ResponsavelRepository responsavelRepository = ResponsavelRepositoryMemoria.getInstance();
+    private final UsuarioRepository usuarioRepository = UsuarioRepositoryMemoria.getInstance();
 
     // --- Serviços ---
     private final AlunoService alunoService = new AlunoService(alunoRepository);
@@ -49,11 +45,11 @@ public class MainFrame extends JFrame {
         add(root, BorderLayout.CENTER);
         add(root, BorderLayout.CENTER);
 
-	     // Ajusta tamanho e aparência
-	     pack(); // calcula automaticamente o melhor tamanho
-	     setMinimumSize(new Dimension(900, 500)); // evita janelas pequenas
-	     setLocationRelativeTo(null); // centraliza na tela
-	     setExtendedState(JFrame.NORMAL); // abre em estado normal (não minimizado
+        // Ajusta tamanho e aparência
+        pack(); // calcula automaticamente o melhor tamanho
+        setMinimumSize(new Dimension(900, 500)); // evita janelas pequenas
+        setLocationRelativeTo(null); // centraliza na tela
+        setExtendedState(JFrame.NORMAL); // abre em estado normal (não minimizado)
 
         // título já existente
         JLabel lblTitulo = new JLabel("Bem-vindo, " + usuarioAtual.getNome() + " (" + usuarioAtual.getTipoUsuario() + ")");
@@ -66,7 +62,7 @@ public class MainFrame extends JFrame {
         centro.setLayout(new BoxLayout(centro, BoxLayout.Y_AXIS));
         root.add(centro, BorderLayout.CENTER);
 
-        // Seções (bastante neutras: borda com título + FlowLayout à esquerda)
+        // Seções
         JPanel secCadastros = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 8));
         secCadastros.setBorder(BorderFactory.createTitledBorder("Cadastros"));
 
@@ -76,7 +72,7 @@ public class MainFrame extends JFrame {
         JPanel secOperacoes = new JPanel(new FlowLayout(FlowLayout.LEFT, 8, 8));
         secOperacoes.setBorder(BorderFactory.createTitledBorder("Operações"));
 
-        // --- Botões (reutilizando seus listeners atuais) ---
+        // --- Botões ---
         // Cadastros (ADMIN)
         JButton btnCadastrarAluno = new JButton("Cadastrar Aluno");
         btnCadastrarAluno.addActionListener(e -> abrirPainelCadastroAluno());
@@ -102,6 +98,13 @@ public class MainFrame extends JFrame {
 
         JButton btnVerStatusFinanceiro = new JButton("Status Financeiro");
         btnVerStatusFinanceiro.addActionListener(e -> abrirPainelStatusFinanceiro());
+
+        // 🔵 NOVOS BOTÕES (TDD 1 e TDD 2)
+        JButton btnTotalPagoAluno = new JButton("Total Pago Aluno");
+        btnTotalPagoAluno.addActionListener(e -> abrirPainelTotalPagoAluno());
+
+        JButton btnFaturasVencidas = new JButton("Faturas Vencidas");
+        btnFaturasVencidas.addActionListener(e -> abrirPainelFaturasVencidas());
 
         // Operações (variável por perfil)
         JButton btnRegistrarPresenca = new JButton("Registrar Presença");
@@ -134,20 +137,20 @@ public class MainFrame extends JFrame {
             secCadastros.add(btnCadastrarAluno);
             secCadastros.add(btnCadastrarResponsavel);
             secCadastros.add(btnCadastrarTreinador);
-            
+
             centro.add(secCadastros);
 
             // Listagens
             secListagens.add(btnListarAlunos);
             secListagens.add(btnListarTreinadores);
             secListagens.add(btnListarResponsaveis);
-    
+
             centro.add(secListagens);
         }
 
         // Operações (para todos, mas com botões específicos)
         if (isTreinador) {
-            secOperacoes.add(btnListarAlunos);          // útil ao treinador também
+            secOperacoes.add(btnListarAlunos);
             secOperacoes.add(btnRegistrarPresenca);
             secOperacoes.add(btnRegistrarAvaliacao);
             secOperacoes.add(btnPublicarComunicado);
@@ -159,10 +162,15 @@ public class MainFrame extends JFrame {
             secOperacoes.add(btnMuralAvisos);
             secOperacoes.add(btnRealizarPagamento);
         }
-        // Admin também pode ver operações gerais, se quiser
+        // Admin também pode ver operações gerais
         if (isAdmin) {
-        	secOperacoes.add(btnVerStatusFinanceiro);
-        	secOperacoes.add(btnGerenciarPlanos);
+            secOperacoes.add(btnVerStatusFinanceiro);
+            secOperacoes.add(btnGerenciarPlanos);
+
+            // 🔵 adiciona botões dos TDDs aqui
+            secOperacoes.add(btnTotalPagoAluno);
+            secOperacoes.add(btnFaturasVencidas);
+
             secOperacoes.add(btnVerDesempenho);
             secOperacoes.add(btnMuralAvisos);
         }
@@ -175,7 +183,6 @@ public class MainFrame extends JFrame {
         btnVoltarLogin.addActionListener(e -> { dispose(); abrirComLogin(); });
         rodape.add(btnVoltarLogin, BorderLayout.EAST);
         root.add(rodape, BorderLayout.SOUTH);
-
     }
 
     // --- Menu Sessão ---
@@ -210,9 +217,6 @@ public class MainFrame extends JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
-    
-
-
 
     // ---------- Cadastro de Treinador ----------
     private void abrirCadastroTreinador() {
@@ -251,8 +255,7 @@ public class MainFrame extends JFrame {
         }
     }
 
-    // ---------- MÉTODOS QUE ABREM OS PAINÉIS (TODOS IMPLEMENTADOS) ----------
- // MainFrame.java
+    // ---------- MÉTODOS QUE ABREM OS PAINÉIS ----------
     private void abrirPainelCadastroAluno() {
         try {
             AlunoCadastroPanel cadastroPanel = new AlunoCadastroPanel(alunoService, turmaService);
@@ -268,77 +271,67 @@ public class MainFrame extends JFrame {
         }
     }
 
-
-
     private void listarAlunos() {
-        // Modelo da tabela (colunas fixas; linhas dinâmicas)
         DefaultTableModel model = new DefaultTableModel(
-            new Object[]{"ID", "Nome", "Nascimento", "Turmas", "Responsáveis", "Obs. Médicas"}, 0
+                new Object[]{"ID", "Nome", "Nascimento", "Turmas", "Responsáveis", "Obs. Médicas"}, 0
         ) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
 
         try {
-            // Carrega todas as turmas uma vez para otimizar
             java.util.List<Turma> todasTurmas = turmaRepository.listarTodas();
 
             for (Aluno a : alunoService.listarAlunos()) {
-                // Turmas do aluno (pelo contains do próprio objeto aluno na turma)
                 String turmasDoAluno = todasTurmas.stream()
                         .filter(t -> t.getAlunos() != null &&
-                                     t.getAlunos().stream().anyMatch(x -> x.getId() == a.getId()))
+                                t.getAlunos().stream().anyMatch(x -> x.getId() == a.getId()))
                         .map(Turma::getNome)
                         .sorted()
                         .collect(java.util.stream.Collectors.joining(", "));
 
                 if (turmasDoAluno.isBlank()) turmasDoAluno = "-";
 
-                // Responsáveis do aluno
                 String responsaveis = (a.getResponsaveis() == null || a.getResponsaveis().isEmpty())
                         ? "-"
                         : a.getResponsaveis().stream()
-                            .map(Responsavel::getNome)
-                            .collect(java.util.stream.Collectors.joining(", "));
+                        .map(Responsavel::getNome)
+                        .collect(java.util.stream.Collectors.joining(", "));
 
-                // Observações médicas (ajuste o getter se seu nome for diferente)
                 String obs = null;
                 try {
-                    // Tenta getObservacoesMedicas()
                     obs = (String) a.getClass().getMethod("getObservacoesMedicas").invoke(a);
                 } catch (Exception ignore) {
                     try {
-                        // fallback: getObsMedicas()
                         obs = (String) a.getClass().getMethod("getObsMedicas").invoke(a);
                     } catch (Exception ignore2) { /* deixa null */ }
                 }
                 if (obs == null || obs.isBlank()) obs = "-";
 
                 model.addRow(new Object[]{
-                    a.getId(),
-                    a.getNome(),
-                    a.getDataNascimento(),   // LocalDate será mostrado como yyyy-MM-dd
-                    turmasDoAluno,
-                    responsaveis,
-                    obs
+                        a.getId(),
+                        a.getNome(),
+                        a.getDataNascimento(),
+                        turmasDoAluno,
+                        responsaveis,
+                        obs
                 });
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
-                this, "Erro ao listar alunos: " + e.getMessage(),
-                "Erro", JOptionPane.ERROR_MESSAGE
+                    this, "Erro ao listar alunos: " + e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE
             );
             e.printStackTrace();
         }
 
         JTable table = new JTable(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        // Larguras agradáveis
-        table.getColumnModel().getColumn(0).setPreferredWidth(40);   // ID
-        table.getColumnModel().getColumn(1).setPreferredWidth(180);  // Nome
-        table.getColumnModel().getColumn(2).setPreferredWidth(100);  // Nascimento
-        table.getColumnModel().getColumn(3).setPreferredWidth(180);  // Turmas
-        table.getColumnModel().getColumn(4).setPreferredWidth(180);  // Responsáveis
-        table.getColumnModel().getColumn(5).setPreferredWidth(200);  // Obs. Médicas
+        table.getColumnModel().getColumn(0).setPreferredWidth(40);
+        table.getColumnModel().getColumn(1).setPreferredWidth(180);
+        table.getColumnModel().getColumn(2).setPreferredWidth(100);
+        table.getColumnModel().getColumn(3).setPreferredWidth(180);
+        table.getColumnModel().getColumn(4).setPreferredWidth(180);
+        table.getColumnModel().getColumn(5).setPreferredWidth(200);
 
         JDialog dialog = new JDialog(this, "Lista de Alunos", true);
         dialog.setContentPane(new JScrollPane(table));
@@ -346,24 +339,23 @@ public class MainFrame extends JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
-    
 
     private void listarTreinadores() {
         DefaultTableModel model = new DefaultTableModel(
-            new Object[]{"ID", "Nome", "E-mail/Login"}, 0
+                new Object[]{"ID", "Nome", "E-mail/Login"}, 0
         ) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
 
         try {
-            List<Usuario> usuarios = usuarioRepository.listarTodos(); // busca todos os usuários
+            List<Usuario> usuarios = usuarioRepository.listarTodos();
 
             for (Usuario u : usuarios) {
                 if (u instanceof Treinador) {
                     model.addRow(new Object[]{
-                        u.getId(),
-                        u.getNome(),
-                        u.getLogin() // ou u.getEmail(), conforme seu modelo
+                            u.getId(),
+                            u.getNome(),
+                            u.getLogin()
                     });
                 }
             }
@@ -386,10 +378,9 @@ public class MainFrame extends JFrame {
         dialog.setVisible(true);
     }
 
-
     private void listarResponsaveis() {
         DefaultTableModel model = new DefaultTableModel(
-            new Object[]{"ID", "Nome", "E-mail/Login", "Alunos Vinculados"}, 0
+                new Object[]{"ID", "Nome", "E-mail/Login", "Alunos Vinculados"}, 0
         ) {
             @Override public boolean isCellEditable(int r, int c) { return false; }
         };
@@ -410,10 +401,10 @@ public class MainFrame extends JFrame {
                     }
 
                     model.addRow(new Object[]{
-                        r.getId(),
-                        r.getNome(),
-                        r.getLogin(), // ou r.getEmail(), dependendo do seu modelo
-                        alunosVinculados
+                            r.getId(),
+                            r.getNome(),
+                            r.getLogin(),
+                            alunosVinculados
                     });
                 }
             }
@@ -436,8 +427,6 @@ public class MainFrame extends JFrame {
         dialog.setLocationRelativeTo(this);
         dialog.setVisible(true);
     }
-
-
 
     private void abrirPainelChamada() {
         try {
@@ -473,7 +462,6 @@ public class MainFrame extends JFrame {
 
     private void abrirPainelGerenciarPlanos() {
         try {
-            // agora o painel recebe FinanceiroService e AlunoService
             PlanoGerenciamentoPanel planoPanel = new PlanoGerenciamentoPanel(financeiroService, alunoService);
             JDialog dialogPlanos = new JDialog(this, "Gerenciar Planos de Pagamento", true);
             dialogPlanos.setContentPane(planoPanel);
@@ -564,6 +552,40 @@ public class MainFrame extends JFrame {
             dialogPagamento.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao abrir painel de pagamento:\n" + e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    // 🔵 NOVOS MÉTODOS PARA OS TDDs
+
+    private void abrirPainelTotalPagoAluno() {
+        try {
+            FinanceiroTotalPagoPanel panel = new FinanceiroTotalPagoPanel(financeiroService);
+            JDialog dialog = new JDialog(this, "Total Pago por Aluno", true);
+            dialog.setContentPane(panel);
+            dialog.pack();
+            dialog.setMinimumSize(dialog.getSize());
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao abrir painel de total pago:\n" + e.getMessage(),
+                    "Erro", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    private void abrirPainelFaturasVencidas() {
+        try {
+            FaturasVencidasPanel panel = new FaturasVencidasPanel(financeiroService);
+            JDialog dialog = new JDialog(this, "Faturas Vencidas do Aluno", true);
+            dialog.setContentPane(panel);
+            dialog.pack();
+            dialog.setMinimumSize(new Dimension(600, 400));
+            dialog.setLocationRelativeTo(this);
+            dialog.setVisible(true);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Erro ao abrir painel de faturas vencidas:\n" + e.getMessage(),
                     "Erro", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
