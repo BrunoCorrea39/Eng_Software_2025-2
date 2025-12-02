@@ -135,22 +135,30 @@ public boolean registrarPagamentoFatura(int faturaId, LocalDate dataPagamento) {
     return false; // já estava paga
 }
 ```
-## 2️⃣ Nova Funcionalidade via TDD — Calcular Total Pago pelo Aluno (10%)
+##  2️⃣ Nova Funcionalidade via TDD — Calcular Total Pago pelo Aluno (10%)
 
-Objetivo:
-Somar todas as faturas pagas de um aluno, ignorando faturas pendentes ou vencidas.
+**Objetivo:**  
+Somar todas as faturas **PAGAS** de um aluno, ignorando faturas **pendentes** ou **vencidas**.
 
-O ciclo TDD foi seguido da seguinte forma:
+Essa funcionalidade foi implementada seguindo rigorosamente o ciclo **TDD (Test-Driven Development)**, conforme exigido no Trabalho 3.
 
-O teste JUnit foi criado primeiro para validar a regra.
+---
 
-O teste falhou, pois o método ainda não existia.
+### ✔ Ciclo TDD aplicado
 
-O método foi implementado no FinanceiroService.
+- **1. Teste JUnit criado primeiro**
+  - O teste validava que:
+    - Somente faturas com status **PAGA** entram na soma
+    - Faturas **PENDENTES** e **VENCIDAS** devem ser ignoradas
 
-Os testes passaram e o código foi mantido limpo.
+- **2. Teste executado → falha**
+  - A funcionalidade ainda não existia no `FinanceiroService`
 
-Implementação no FinanceiroService:
+- **3. Implementação mínima foi criada**
+  - Código abaixo foi adicionado ao serviço para fazer o teste passar:
+
+
+- **Implementação no FinanceiroService:**
 ```java
 public BigDecimal calcularTotalPagoAluno(int alunoId) {
     return faturaRepository.buscarPorAlunoId(alunoId).stream()
