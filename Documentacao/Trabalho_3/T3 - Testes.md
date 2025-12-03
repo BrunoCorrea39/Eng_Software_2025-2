@@ -76,7 +76,7 @@ Os testes cobrem as camadas de **Serviço (Service)** e **Repositório (Reposito
 
 ## 2.3. Evidência de Execução
 
-![Testes realizados com sucesso](Documentacao/Fotos/testes_sucesso.jpg)
+![Testes realizados com sucesso](Fotos/testes_sucesso.jpg)
 
 ## 3. TDD - Desenvolvimento de Novas Funcionalidades
 
